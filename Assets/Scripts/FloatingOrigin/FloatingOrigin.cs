@@ -84,4 +84,16 @@ public class FloatingOrigin : MonoBehaviour
         }
     }
 
+    public void SetPosition(Transform target, Vector3 position) {
+        var rb = target.GetComponent<Rigidbody>(); 
+        if (rb) {
+            if (rb.transform.position.sqrMagnitude > threshold * threshold) {
+                rb.sleepThreshold = float.MaxValue;
+            } else {
+                rb.sleepThreshold = defaultSleepThreshold;
+            }
+        }
+        target.position = position;
+    }
+
 }

@@ -28,7 +28,7 @@ public class OriginManager : MonoBehaviour
 
         // move player to relative location
         Vector3 playerPosition = (skyboxCamera.transform.position - locationContext.transform.position) * OriginManager.skyboxScale;
-        player.ship.transform.position = playerPosition;
+        floatingOrigin.SetPosition(player.ship.transform, playerPosition);
 
         // move skybox such that this location is the new 0,0,0
         Vector3 skyboxOrigin = locationContext.transform.position;
@@ -37,13 +37,13 @@ public class OriginManager : MonoBehaviour
     }
 
     public void ExitLocation(LocationContext locationContext) {
-        floatingOrigin.enabled = true;
-
-        // reset skybox position
-        skybox.transform.position = Vector3.zero;
 
         // move player to relative location
         Vector3 playerPosition = (skyboxCamera.transform.position - locationContext.transform.position) * scale;
-        player.ship.transform.position = playerPosition;
+
+        floatingOrigin.SetPosition(player.ship.transform, playerPosition);
+        
+        // reset skybox position
+        skybox.transform.position = Vector3.zero;
     }
 }

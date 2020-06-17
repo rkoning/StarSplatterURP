@@ -5,12 +5,15 @@ using UnityEngine.InputSystem.Interactions;
 
 public class PlayerFighter : MonoBehaviour
 {
+    [Header("Physics Forces")]
     public float yawTorque;
     public float rollTorque;
     public float pitchTorque;
     public float baseThrustForce;
     public float brakeForce;
     public float thrustForce;
+
+    [Header("Boost")]
     public float[] boostCutoffs;
     public float boostForce;
     private int boostLevel = 0;
@@ -26,6 +29,20 @@ public class PlayerFighter : MonoBehaviour
         get { return boostChanging; }
         set { boostChanging = value; }
     }
+
+    [Header("Particle Effects")]
+    public ParticleSystem[] boostStartEffects;
+    public ParticleSystem[] postBoostEffects;
+
+
+    [Header("Audio")]
+    public AudioSource boostSound;
+    public AudioSource engineSound;
+    public float minEnginePitch;
+    public float maxEnginePitch;
+    public float minEngineVolume;
+    public float maxEngineVolume;
+
 
     private Transform dockTransform;
     public bool IsDocked {
@@ -44,7 +61,7 @@ public class PlayerFighter : MonoBehaviour
     private float throttleInput;
 
     public PlayerInput playerInput;
-
+    public Player player;
     private void Awake() {
         rb = GetComponent<Rigidbody>();
     }
@@ -86,6 +103,59 @@ public class PlayerFighter : MonoBehaviour
         );
         
         rb.AddTorque(torque);
+
+        if (CanBoost()) {
+            float now = Time.fixedTime;
+            if (!boostChanging) {
+                StartAllParticles(boostStartEffects);
+                if (playerInput.ThrottleInput < 0.4f) {
+                    // if player reduces input to < 0.4 then boost is readied
+                    boostChanging = true;
+                }
+            } else {
+                if (playerInput.ThrottleInput > 0.9f) {
+                    boostChanging = false;
+                    Boost();
+                    player.camera.AddStress(1);
+                }
+            }
+        }
+    }
+
+    public bool CanBoost() {
+        if (rb) {
+            return boostLevel < boostCutoffs.Length && rb.velocity.sqrMagnitude > Mathf.Pow(boostCutoffs[boostLevel], 2) && Time.fixedTime > nextBoost;
+        } else {
+            return false;
+        }
+    }
+
+    public void Boost() {
+        rb.AddForce(boostForce * transform.forward);
+        nextBoost = Time.fixedTime + boostDelay;
+        boostLevel++;
+        StartAllParticles(postBoostEffects);
+        if (boostSound && engineSound) {
+            boostSound.Play();
+            engineSound.pitch = Mathf.Lerp(minEnginePitch, maxEnginePitch, ((float) boostLevel / (float) boostCutoffs.Length));
+            engineSound.volume = Mathf.Lerp(minEngineVolume, maxEngineVolume, ((float) boostLevel / (float) boostCutoffs.Length));
+        }
+    }
+
+    public void StartAllParticles(ParticleSystem[] particleGroup) {
+        foreach (ParticleSystem p in particleGroup) {
+            if (!p.isPlaying) {
+                p.Play();
+            }
+        }
+    }
+
+    public void StopAllParticles(ParticleSystem[] particleGroup) {
+        foreach (ParticleSystem p in particleGroup) {
+            if (p.isPlaying) {
+                p.Stop();
+            }            
+        }
     }
 
     /// <summary>

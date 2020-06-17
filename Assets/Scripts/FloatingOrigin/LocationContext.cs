@@ -43,13 +43,11 @@ public class LocationContext : MonoBehaviour
 
     public Vector3 GetScaledPoint(Vector3 realPoint) {
         Vector3 relative = real.InverseTransformPoint(realPoint); // realPoint's position relative to the real root
-        return scaled.rotation *  (scaled.position + relative / scale);
+        return (scaled.position + scaled.rotation * relative / scale);
     }
 
     public Quaternion GetScaledRotation(Transform t) {
-        Vector3 direction = (real.forward - t.forward).normalized;
-        Vector3 scaledDir = scaled.rotation * direction;
-        // Debug.Log(scaledDir);
-        return Quaternion.LookRotation(scaledDir);
+        var relative = Quaternion.Inverse(real.rotation) * t.rotation;
+        return scaled.rotation * relative;
     }
 }
