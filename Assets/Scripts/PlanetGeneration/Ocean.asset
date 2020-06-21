@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd851e4cede2024d83c3830b7c44617, type: 3}
+  m_Name: Ocean
+  m_EditorClassIdentifier: 
+  minOctaves: 3
+  maxOctaves: 4
+  minLacunarity: 0.4
+  maxLacunarity: 0.77
+  minPersistence: 2.2
+  maxPersistence: 2.5
+  minNoiseScale: 1.9
+  maxNoiseScale: 2.3
+  minNoiseWeight: 6.5
+  maxNoiseWeight: 7.5
+  minWeightMultipiler: 1.3
+  maxWeightMultipiler: 1.8
+  minRadius: 100
+  maxRadius: 120
+  material: {fileID: 2100000, guid: 6149cf0af5e699e45b43919ccc079205, type: 2}
+  minTextureOffset: 300
+  minMaxTextureOffset: 800
+  ringsChance: 1
+  ringMaterials:
+  - {fileID: 2100000, guid: 25e4f1f0adaf23c44b239a71e0b90cf9, type: 2}
+  waterChance: 1
+  waterMaterials:
+  - {fileID: 2100000, guid: f7aed4a168a0e9b4fb7aaac2edcc60b4, type: 2}
+  waterHeight: 1.3
+  atmosphereChance: 0.3
+  atmosphereMaterials: []
+  prefabs:
+  - prefab: {fileID: 2495457046802899042, guid: 6111891eba5b56d4da4bbab4dcced8bd,
+      type: 3}
+    rarity: 0

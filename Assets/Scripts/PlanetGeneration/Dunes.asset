@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd851e4cede2024d83c3830b7c44617, type: 3}
+  m_Name: Dunes
+  m_EditorClassIdentifier: 
+  minOctaves: 2
+  maxOctaves: 4
+  minLacunarity: 0.1
+  maxLacunarity: 0.3
+  minPersistence: 0.1
+  maxPersistence: 0.5
+  minNoiseScale: 1.7
+  maxNoiseScale: 2.5
+  minNoiseWeight: 3
+  maxNoiseWeight: 4
+  minWeightMultipiler: 1
+  maxWeightMultipiler: 3
+  minRadius: 200
+  maxRadius: 350
+  material: {fileID: 2100000, guid: 6a75954c481f55046a19bd4df5211a06, type: 2}
+  minTextureOffset: 200
+  minMaxTextureOffset: 250
+  ringsChance: 0
+  ringMaterials:
+  - {fileID: 2100000, guid: 25e4f1f0adaf23c44b239a71e0b90cf9, type: 2}
+  waterChance: 0
+  waterMaterials: []
+  waterHeight: 1.1
+  atmosphereChance: 0
+  atmosphereMaterials: []
+  prefabs:
+  - prefab: {fileID: 7433428319073184332, guid: 450cb172e8a1eae41aaa1d0074ccb5de,
+      type: 3}
+    rarity: 0
+  - prefab: {fileID: 765547777235899669, guid: 2ff717be0837eeb4a8f1daafb8c0132c, type: 3}
+    rarity: 0
+  - prefab: {fileID: 615211223338530353, guid: 9cb43d2439fa3304d8b2f433976e1653, type: 3}
+    rarity: 0
+  - prefab: {fileID: 43087102454604085, guid: 67de18c97cc56814997da4bd8f0f592b, type: 3}
+    rarity: 0

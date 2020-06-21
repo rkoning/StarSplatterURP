@@ -10,7 +10,7 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
-
+/[Aa]ssets/BuildScenes
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
