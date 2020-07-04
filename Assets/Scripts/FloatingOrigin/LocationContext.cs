@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LocationContext : MonoBehaviour
 {
-    public string sceneName;
-    private int buildIndex = -1;
-    private AsyncOperation loading;
-
     public Transform scaled;
     public Transform real;
     public float scale;
@@ -15,28 +10,23 @@ public class LocationContext : MonoBehaviour
     public GameObject exitTrigger;
 
     private void Start() {
+        scale = OriginManager.skyboxScale;
         enterTrigger.SetActive(true);
         exitTrigger.SetActive(false);    
     }
 
     public void LoadLocation() {
-        var loading = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        // load scene async
-        loading.completed += (AsyncOperation op) => {
-            if (buildIndex < 0) {
-                buildIndex = SceneManager.GetSceneByName(sceneName).buildIndex;
-            }
-
-            OriginManager.instance.EnterLocation(this);
-            enterTrigger.SetActive(false);
-            exitTrigger.SetActive(true);
-        };
+        Debug.Log("Load Location");
+        real.gameObject.SetActive(true);
+        OriginManager.instance.EnterLocation(this);
+        enterTrigger.SetActive(false);
+        exitTrigger.SetActive(true);
     }
     
     public void UnloadLocation() {
+        Debug.Log("Unload Location");
+        real.gameObject.SetActive(false);
         OriginManager.instance.ExitLocation(this);
-        SceneManager.UnloadSceneAsync(buildIndex);
-
         enterTrigger.SetActive(true);
         exitTrigger.SetActive(false);
     }

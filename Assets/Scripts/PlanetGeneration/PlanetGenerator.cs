@@ -17,7 +17,6 @@ namespace PlanetGeneration
 
         private MeshGenerator generator;
         private NoiseDensity density;
-        private float scaleModifier;
 
         public Transform realPlanet;
         public Transform scaledPlanet;
@@ -35,10 +34,12 @@ namespace PlanetGeneration
         public float ringInnerRadiusScale = 3.5f;
         public float ringOuterRadiusScale = 4.5f;
 
+        public GameObject planetPrefab;
+
         // public float navTreeSize;
         // public GameObject navTreeAnchorPrefab;
         // public List<GameObject> navTrees;
-        private Planet planet;
+        // private Planet planet;
 
         public LayerMask envMask;
 
@@ -51,8 +52,8 @@ namespace PlanetGeneration
         }
 
         private void Start() {
-            Setup();
-            Generate();
+            // Setup();
+            // Generate();
             var a = generator.chunkHolder.GetComponentsInChildren<MeshCollider>();
             for (int i = 0; i < a.Length; i++) {
                 a[i].enabled = false;
@@ -61,10 +62,19 @@ namespace PlanetGeneration
             // PlacePrefabs();
         }
 
+        public void GenerateFull() {
+            var planetGO = GameObject.Instantiate(planetPrefab);
+            var planet = planetGO.GetComponent<Planet>();
+            scaledPlanet = planet.scaledChunkHolder;
+            realPlanet = planet.realChunkHolder;
+            Setup();
+            GenerateScaled();
+            GenerateReal();
+            realPlanet.SetParent(null);
+            realPlanet.gameObject.SetActive(false);
+        }
+
         public void Setup() {
-            // assume equal x, y, and z scale
-            scaleModifier = generator.chunkHolder.transform.localScale.x;
-            realPlanet = generator.chunkHolder.transform;
             // set planet biome
             selected = biomes[Random.Range(0, biomes.Count)];
             // set planet params
@@ -76,7 +86,7 @@ namespace PlanetGeneration
             density.weightMultiplier = Random.Range(selected.minWeightMultipiler, selected.maxWeightMultipiler);
             density.radius = Random.Range(selected.minRadius, selected.maxRadius);
 
-            orbitalRadius = density.radius * orbitalRadiusScale * scaleModifier;
+            orbitalRadius = density.radius * orbitalRadiusScale;
             
             // set ring params
             hasRings = Random.Range(0f, 1f) <= selected.ringsChance;
@@ -103,12 +113,16 @@ namespace PlanetGeneration
         public void GenerateScaled() {
             textureMinMax = new TextureMinMax();
             generator.generateColliders = false;
+            scaledPlanet.localScale = Vector3.one / OriginManager.skyboxScale;
+            Debug.Log(scaledPlanet.localScale);
             generator.chunkHolder = scaledPlanet.gameObject;
+
+
             generator.Run(textureMinMax);
             generator.mat = CreateSurfaceMaterial(selected.material, Mathf.Sqrt(textureMinMax.Min), Mathf.Sqrt(textureMinMax.Max));
         }
         
-        public void Generate() {
+        public void GenerateReal() {
             textureMinMax = new TextureMinMax();
             // Reset();
             generator.generateColliders = true;
@@ -167,11 +181,11 @@ namespace PlanetGeneration
 
         public void BuildNavTrees() {
             // subdivide the planet into 5000 unit cubes, use planet radius to find size of cube needed.
-            Vector3 planetSize = Vector3.one * density.radius * scaleModifier * 1.5f;
+            Vector3 planetSize = Vector3.one * density.radius * 1.5f;
             // if the planet has rings then add to the x and z size of the planet.
             if (hasRings) {
-                planetSize.x = density.radius * scaleModifier * (ringOuterRadiusScale + 0.5f);
-                planetSize.z = density.radius * scaleModifier * (ringOuterRadiusScale + 0.5f);
+                planetSize.x = density.radius * (ringOuterRadiusScale + 0.5f);
+                planetSize.z = density.radius * (ringOuterRadiusScale + 0.5f);
             }
 
             // navTrees = new List<GameObject>();
@@ -200,7 +214,6 @@ namespace PlanetGeneration
                     var prefab = selected.prefabs[Random.Range(0, selected.prefabs.Length)];
                     // instantiate it at the position
                     var deposit = GameObject.Instantiate(prefab.prefab, sp.point, sp.rotation);
-                    planet.deposits.Add(deposit);
                 }
             }
         }
@@ -261,11 +274,11 @@ namespace PlanetGeneration
             } else {
                 Destroy(water);
             }
-            if (planet) {
-                planet.Reset();
-                DestroyImmediate(planet, true);
-                planet = null;
-            }
+            // if (planet) {
+            //     planet.Reset();
+            //     DestroyImmediate(planet, true);
+            //     planet = null;
+            // }
         }
 
         private SurfacePosition SampleSurface() {

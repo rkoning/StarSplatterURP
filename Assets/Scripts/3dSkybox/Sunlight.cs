@@ -7,8 +7,10 @@ public class Sunlight : MonoBehaviour {
    public Transform scaledViewer;
    public LayerMask scaledLayers;
 
-   public float defaultIntensity;
-   public float shadowIntensity;
+   public float defaultIntensity = 4f;
+   public float intensityScale = 0.01f;
+
+   public LocationContext currentLocation;
 
    private void Start() {
       realLight.color = skyboxLight.color;
@@ -16,17 +18,17 @@ public class Sunlight : MonoBehaviour {
       realLight.intensity = defaultIntensity;
    }
 
-   private void Update() {
+   private void LateUpdate() {
       Vector3 direction = scaledViewer.transform.position;
       direction.x -= skyboxLight.transform.position.x;
       direction.y -= skyboxLight.transform.position.y;
       direction.z -= skyboxLight.transform.position.z;
-
-      realLight.transform.rotation = Quaternion.LookRotation(direction);
-      if (Physics.Raycast(skyboxLight.transform.position, direction, float.MaxValue, scaledLayers)) {
-         realLight.intensity = shadowIntensity;
+      if (!currentLocation) {
+         realLight.transform.forward = direction.normalized;
+         realLight.intensity = defaultIntensity - direction.sqrMagnitude * intensityScale;
       } else {
-         realLight.intensity = defaultIntensity;
+         realLight.transform.forward = Quaternion.Inverse(currentLocation.transform.rotation) * direction.normalized;
+         realLight.intensity = defaultIntensity - direction.sqrMagnitude * intensityScale;
       }
    }
 }

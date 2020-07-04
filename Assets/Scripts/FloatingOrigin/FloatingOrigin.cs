@@ -4,7 +4,7 @@ public class FloatingOrigin : MonoBehaviour
 {
     public Transform viewer;
     
-    public float threshold;
+    public float scale;
     
     public Vector3 truePosition;
 
@@ -12,14 +12,17 @@ public class FloatingOrigin : MonoBehaviour
 
     public LayerMask scaledLayers;
     
-    public float scale;
 
     public LayerMask ignoredLayers;
 
     ParticleSystem.Particle[] parts = null;
 
+    private void Start() {
+        scale = OriginManager.skyboxScale;
+    }
+    
     private void FixedUpdate() {
-        if (viewer.position.sqrMagnitude > threshold * threshold) {
+        if (viewer.position.sqrMagnitude > scale * scale) {
             Vector3 viewerPosition = viewer.position;
             truePosition.x += viewer.position.x;
             truePosition.y += viewer.position.y;
@@ -44,7 +47,7 @@ public class FloatingOrigin : MonoBehaviour
 
             var objects = FindObjectsOfType<Rigidbody>();
             foreach (Rigidbody rb in objects) {
-                if (rb.transform.position.sqrMagnitude > threshold * threshold) {
+                if (rb.transform.position.sqrMagnitude > scale * scale) {
                     rb.sleepThreshold = float.MaxValue;
                 } else {
                     rb.sleepThreshold = defaultSleepThreshold;
@@ -84,16 +87,17 @@ public class FloatingOrigin : MonoBehaviour
         }
     }
 
-    public void SetPosition(Transform target, Vector3 position) {
+    public void SetPosition(Transform target, Vector3 position, Quaternion rotation) {
         var rb = target.GetComponent<Rigidbody>(); 
         if (rb) {
-            if (rb.transform.position.sqrMagnitude > threshold * threshold) {
+            if (rb.transform.position.sqrMagnitude > scale * scale) {
                 rb.sleepThreshold = float.MaxValue;
             } else {
                 rb.sleepThreshold = defaultSleepThreshold;
             }
         }
         target.position = position;
+        target.rotation = rotation;
     }
 
 }

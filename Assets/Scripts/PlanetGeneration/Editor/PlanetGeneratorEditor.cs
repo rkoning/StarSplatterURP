@@ -9,12 +9,18 @@ namespace PlanetGeneration
       public override void OnInspectorGUI() {
          base.OnInspectorGUI();
          PlanetGenerator gen = (PlanetGenerator)target;
+
+         
+         if (GUILayout.Button("Generate All")) {
+            gen.GenerateFull();
+         }
+
          if (GUILayout.Button("Setup")) {
             gen.Setup();
          }
 
          if (GUILayout.Button("Generate")) {
-            gen.Generate();
+            gen.GenerateReal();
          }
 
          if (GUILayout.Button("GenerateScaled")) {

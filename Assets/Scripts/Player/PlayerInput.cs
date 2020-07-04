@@ -89,6 +89,7 @@ public class PlayerInput : MonoBehaviour
 
 
     private DefaultControls inputActions;
+    
     private void Awake() {
         inputActions = new DefaultControls();
         primaryFire = new ButtonState(inputActions.FlightControls.Primary);

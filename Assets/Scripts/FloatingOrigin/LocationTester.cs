@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class LocationTester : MonoBehaviour
 {
-    public Transform scaled;
-    public LocationContext context;
-
+    public PlayerInput input;
+    public float speed = 10f;
     private void Update() {
-        scaled.position = context.GetScaledPoint(transform.position);
-        scaled.rotation = context.GetScaledRotation(transform);
+        if (input.PrimaryFireHeld) {
+            transform.position += transform.forward * Time.deltaTime * speed;
+        } else if (input.SecondaryFireHeld) {
+            transform.position -= transform.forward * Time.deltaTime * speed;
+        }
     }
 }

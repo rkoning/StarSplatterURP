@@ -27,7 +27,7 @@ public class PlanetLoader : MonoBehaviour
 
          // move player to relative location
          Vector3 playerPosition = (other.transform.position - transform.position) * OriginManager.skyboxScale;
-         OriginManager.instance.player.ship.transform.position = playerPosition;
+         OriginManager.instance.viewer.position = playerPosition;
 
          // move skybox such that this location is the new 0,0,0
          Vector3 skyboxOrigin = transform.position;

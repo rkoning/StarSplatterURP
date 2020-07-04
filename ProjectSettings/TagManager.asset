@@ -18,8 +18,8 @@ TagManager:
   - SkyboxCamera
   - SkyboxTriggers
   - IgnoreFloatingOrigin
-  - 
-  - 
+  - Player
+  - PlayerTriggers
   - 
   - 
   - 
