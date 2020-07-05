@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2921700100659542088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2921700100659542092}
+  - component: {fileID: 2921700100659542093}
+  - component: {fileID: 2921700100659542090}
+  - component: {fileID: 2921700100659542091}
+  m_Layer: 0
+  m_Name: PlanetGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2921700100659542092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921700100659542088}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2921700100659542093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921700100659542088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c246675c48dd4e6796ca3fe12dabbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  densityGenerator: {fileID: 2921700100659542090}
+  fixedMapSize: 1
+  numChunks: {x: 4, y: 4, z: 4}
+  viewer: {fileID: 0}
+  viewDistance: 30
+  autoUpdateInEditor: 0
+  autoUpdateInGame: 0
+  shader: {fileID: 7200000, guid: e6675a5747764487687871eed95a316b, type: 3}
+  mat: {fileID: 0}
+  generateColliders: 1
+  isoLevel: 0.5
+  boundsSize: 1000
+  offset: {x: 0, y: 0, z: 0}
+  numPointsPerAxis: 35
+  showBoundsGizmo: 0
+  boundsGizmoCol: {r: 1, g: 1, b: 1, a: 1}
+  chunkHolder: {fileID: 0}
+--- !u!114 &2921700100659542090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921700100659542088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39819c572c3204902847662df1fa9c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  densityShader: {fileID: 7200000, guid: 6f17253ba515b49de95452c1dcbdc45c, type: 3}
+  seed: 140003435
+  numOctaves: 3
+  lacunarity: 0.7319037
+  persistence: 2.3251975
+  noiseScale: 0.22581773
+  noiseWeight: 64.4056
+  closeEdges: 0
+  floorOffset: 0
+  weightMultiplier: 1.7023177
+  radius: 999.9497
+  hardFloorHeight: 0
+  hardFloorWeight: 0
+  shaderParams: {x: 1, y: 1, z: 1, w: 0}
+--- !u!114 &2921700100659542091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2921700100659542088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545995a513028f441813e4bb7774be81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  biomes:
+  - {fileID: 11400000, guid: 8f2c08355c364cd46a24369c3661fe35, type: 2}
+  hasRings: 0
+  hasAtmosphere: 0
+  hasWater: 0
+  realPlanet: {fileID: 0}
+  scaledPlanet: {fileID: 0}
+  waterPrefab: {fileID: 0}
+  selected: {fileID: 11400000, guid: 8f2c08355c364cd46a24369c3661fe35, type: 2}
+  orbitalRadius: 1249.9371
+  orbitalRadiusScale: 1.25
+  ringInnerRadiusScale: 3.5
+  ringOuterRadiusScale: 4.5
+  planetPrefab: {fileID: 8359087128982859160, guid: ed285226672b85949b87a3824875d359,
+    type: 3}
+  envMask:
+    serializedVersion: 2
+    m_Bits: 0
