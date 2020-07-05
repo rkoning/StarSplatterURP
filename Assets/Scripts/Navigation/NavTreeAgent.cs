@@ -61,9 +61,10 @@ namespace Navigation
         }
 
         public void CheckRoute(Vector3 destinationPosition) {
-            if (waitingForRoute) {
-                return;
-            }
+            // if (waitingForRoute) {
+            //     Debug.Log("Waiting");
+            //     return;
+            // }
             if (route == null) {
                 Destination = destinationPosition;
                 atDestination = false;
@@ -92,7 +93,7 @@ namespace Navigation
         }
 
         public void DrawRoute() {
-            Debug.DrawLine(route.points[route.current].GetPosition(), transform.position, Color.green);
+            // Debug.DrawLine(route.points[route.current].GetPosition(), transform.position, Color.green);
 
             for (int i = 0; i < route.points.Count - 1; i++) {
                 if (route == null)
@@ -116,6 +117,9 @@ namespace Navigation
             }
             Vector3 previous = route.points[route.current].GetPosition();
             for (int i = 0; i < 3 && route.current - i > 0; i++) {
+                if (route.points.Count <= route.current - i) {
+                    continue;
+                }
                 Vector3 next = route.points[route.current - i].GetPosition();
                 sum += Vector3.Dot((previous - next).normalized, (next - route.points[route.current - i - 1].GetPosition()).normalized);
                 previous = next;

@@ -112,6 +112,7 @@ namespace AI {
         /// Rotates towards the agent's next position and applys a force to the ship's Rigidbody
         /// </summary>
         private void Move() {
+            // Debug.DrawLine(transform.position, Agent.NextPosition, Color.cyan);
             var targetRotation = Quaternion.LookRotation(agent.NextPosition - transform.position);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
             float force = baseThrustForce + thrustForce + boostForce * BoostLevel;
