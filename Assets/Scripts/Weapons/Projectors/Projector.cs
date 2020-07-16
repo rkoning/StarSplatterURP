@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using AI.Factions;
-
 public abstract class Projector : MonoBehaviour
 {
 
@@ -49,14 +47,14 @@ public abstract class Projector : MonoBehaviour
      */
     public virtual bool DealDamage(GameObject other) {
         OnHitAny();
-        var t = other.GetComponent<Target>();
+        var t = other.GetComponent<Targetable>();
         if (t) {
             t.AttackedBy(weapon.owner);
         }
 
         var hp = other.GetComponent<Health>();
-        if (hp != null && hp.Faction != weapon.owner.majorFaction) {
-            bool dealtDamage = hp.TakeDamage(damage, weapon.owner.majorFaction, structureDamage);
+        if (hp != null) {
+            bool dealtDamage = hp.TakeDamage(damage, structureDamage);
             if (dealtDamage)
                 OnHitDamage();
             return true;

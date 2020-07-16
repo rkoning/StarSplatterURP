@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-
-using AI.Factions;
+using System;
+using System.Collections;
 
 public abstract class Health : MonoBehaviour
 {
@@ -14,27 +14,25 @@ public abstract class Health : MonoBehaviour
     public event DeathAction OnDeath;
     public UnityEvent OnDeathEvent = new UnityEvent();
 
-    protected MajorFaction faction;
-    public MajorFaction Faction {
-        get { return faction; }
-        set { faction = value; }
-    }
-    
     public float maxHealth;
-    protected float currentHealth;
+    public float currentHealth;
 
     protected bool dead;
     public bool Dead {
         get { return dead; }
     }
 
+    public bool damageFlashEnabled = false;
+    public Color flashColor;
+    public MeshRenderer flashRenderer;
+    private Coroutine flashing;
+
     protected virtual void Start()
     {
         currentHealth = maxHealth;
         OnDamaged += () => {};
+        OnDeath += (Health health) => {};
     }
-
-    protected MajorFaction lastDamagedBy;
 
     /// <summary>
     /// Gets a health component on this object that should be used to target, on larger ships this will be a subcomponent
@@ -48,13 +46,9 @@ public abstract class Health : MonoBehaviour
     /// <param name="damage">Amount of damage to apply</param>
     /// <param name="faction">Faction of the weapon that dealt damage</param>
     /// <returns>True if damage was applied</returns>
-    public abstract bool TakeDamage(float damage, MajorFaction faction, bool structureDamage);
+    public abstract bool TakeDamage(float damage, bool structureDamage);
 
     public abstract void Heal(float health);
-
-    public MajorFaction GetLastDamagedBy() {
-        return lastDamagedBy;
-    }
     
     /// <summary>
     /// Should be called to kill the damageable object
@@ -70,6 +64,11 @@ public abstract class Health : MonoBehaviour
     /// </summary>
     protected void Damage() {
         OnDamaged();
+        if (damageFlashEnabled) {
+            if (flashing == null) {
+                flashing = StartCoroutine(DamageFlash());
+            }
+        }
         OnDamagedEvent.Invoke();
     }
 
@@ -79,5 +78,17 @@ public abstract class Health : MonoBehaviour
     protected void Death() {
         OnDeath(this);
         OnDeathEvent.Invoke();
+    }
+
+    protected IEnumerator DamageFlash() {
+        var origColor = flashRenderer.material.color;
+        flashRenderer.material.color = flashColor;
+        yield return new WaitForSeconds(0.2f);
+        flashRenderer.material.color = Color.white;
+        yield return new WaitForSeconds(0.1f);
+        flashRenderer.material.color = flashColor;
+        yield return new WaitForSeconds(0.1f);
+        flashRenderer.material.color = origColor;
+        flashing = null;
     }
 }

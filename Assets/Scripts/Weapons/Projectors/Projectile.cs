@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using AI.Factions;
-
 public class Projectile : MonoBehaviour
 {
-
-    private MinorFaction faction;
-    public MinorFaction Faction {
-        set { faction = value; }
-    }
-
-    public int damage;
+    public float damage;
 
     public float launchForce;
     protected Rigidbody rb;

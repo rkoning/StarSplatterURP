@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AI.Factions;
 
 public class BeamProjector : Projector {
  
@@ -20,7 +19,7 @@ public class BeamProjector : Projector {
 
     protected override void Start() {
         base.Start();
-        beam = GetComponent<LineRenderer>();
+        beam = GetComponentInChildren<LineRenderer>();
         beam.enabled = false;  
     }
 
@@ -62,14 +61,14 @@ public class BeamProjector : Projector {
 
     public override bool DealDamage(GameObject other) {
         HitAny();
-        var t = other.GetComponent<Target>();
+        var t = other.GetComponent<Targetable>();
         if (t) {
             t.AttackedBy(weapon.owner);
         }
 
         var hp = other.GetComponent<Health>();
-        if (hp != null && (hp.Faction != weapon.owner.majorFaction || weapon.owner.majorFaction == null)) { // damage is not applied if the weapon and hp have the same non-null faction
-            bool dealtDamage = hp.TakeDamage((damage * Time.deltaTime) / duration, weapon.owner.majorFaction, structureDamage);
+        if (hp != null ) { // damage is not applied if the weapon and hp have the same non-null faction
+            bool dealtDamage = hp.TakeDamage((damage * Time.deltaTime) / duration, structureDamage);
             if (dealtDamage)
                 HitDamage();
             return true;

@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using AI.Factions;
-
 public class ParticleDamage : MonoBehaviour
 {
-    private MajorFaction faction;
     private float damage;
     private bool structureDamage;
 
@@ -15,18 +12,12 @@ public class ParticleDamage : MonoBehaviour
         this.structureDamage = structureDamage;
     }
 
-    public void SetFaction(MajorFaction faction) {
-        this.faction = faction;
-    }
-
     private void OnParticleCollision(GameObject other) {
-        var t = other.GetComponent<Target>();
-        if (t) {
-            t.AttackedBy(faction);
-        }
+        var t = other.GetComponent<Targetable>();
+
         var h = other.GetComponent<Health>();
-        if (h && h.Faction != this.faction) {
-            h.TakeDamage(damage, this.faction, structureDamage);
+        if (h) {
+            h.TakeDamage(damage, structureDamage);
         }
     }
 }

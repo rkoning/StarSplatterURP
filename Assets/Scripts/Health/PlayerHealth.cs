@@ -16,13 +16,7 @@ public class PlayerHealth : LightHealth
     private void OnCollisionEnter(Collision other) {
         if (damagingLayers == (damagingLayers | 1 << other.gameObject.layer)){
             rb.AddForce(other.GetContact(0).normal * Mathf.Clamp(other.impulse.sqrMagnitude, 2000, 10000));
-            TakeDamage(maxHealth / 2f, null, false);
-        }
-    }
-
-    private void Update() {
-        if (Input.GetKey(KeyCode.K)) {
-            Die();
+            TakeDamage(maxHealth / 2f, false);
         }
     }
 

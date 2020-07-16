@@ -104,27 +104,31 @@ namespace Navigation
         }
 
         public float GetTargetSpeed() {
-            float sum = 0f;
-            if (SquaredDistanceToTarget < 200f) {
-                return 0.3f;
-            }
-            if (route == null) {
-                return 0.8f;
-            }
+            return 1f;
+            // float sum = 0f;
+            // if (SquaredDistanceToTarget < 200f) {
+            //     return 0.3f;
+            // }
+            // if (route == null) {
+            //     return 0.8f;
+            // }
 
-            if (route.current < 0) {
-                return 0.3f;
-            }
-            Vector3 previous = route.points[route.current].GetPosition();
-            for (int i = 0; i < 3 && route.current - i > 0; i++) {
-                if (route.points.Count <= route.current - i) {
-                    continue;
-                }
-                Vector3 next = route.points[route.current - i].GetPosition();
-                sum += Vector3.Dot((previous - next).normalized, (next - route.points[route.current - i - 1].GetPosition()).normalized);
-                previous = next;
-            }
-            return 1f - sum / 3f;
+            // if (route.current < 0) {
+            //     return 0.3f;
+            // }
+            // Vector3 previous = route.points[route.current].GetPosition();
+            // for (int i = 0; i < 3 && route.current - i > 0; i++) {
+            //     if (route.points.Count <= route.current - i) {
+            //         continue;
+            //     }
+            //     Vector3 next = route.points[route.current - i].GetPosition();
+            //     if (route.current - i - 1 < 0 || route.current - i - 1 > route.points.Count - 1) {
+            //         return 0.8f;
+            //     }
+            //     sum += Vector3.Dot((previous - next).normalized, (next - route.points[route.current - i - 1].GetPosition()).normalized);
+            //     previous = next;
+            // }
+            // return 1f - sum / 3f;
         }
 
         /// <summary>

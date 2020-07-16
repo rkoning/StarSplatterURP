@@ -16,16 +16,16 @@ public class LocationContext : MonoBehaviour
     }
 
     public void LoadLocation() {
-        Debug.Log("Load Location");
         real.gameObject.SetActive(true);
+        scaled.gameObject.SetActive(false);
         OriginManager.instance.EnterLocation(this);
         enterTrigger.SetActive(false);
         exitTrigger.SetActive(true);
     }
     
     public void UnloadLocation() {
-        Debug.Log("Unload Location");
         real.gameObject.SetActive(false);
+        scaled.gameObject.SetActive(true);
         OriginManager.instance.ExitLocation(this);
         enterTrigger.SetActive(true);
         exitTrigger.SetActive(false);

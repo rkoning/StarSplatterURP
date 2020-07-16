@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-public class PlayerFighter : MonoBehaviour
+public class PlayerFighter : Ship
 {
     [Header("Physics Forces")]
     public float yawTorque;
@@ -34,6 +34,8 @@ public class PlayerFighter : MonoBehaviour
     public ParticleSystem[] boostStartEffects;
     public ParticleSystem[] postBoostEffects;
 
+    public ParticleSystem speedIndicator;
+    public float maxSpeedScale = 3f;
 
     [Header("Audio")]
     public AudioSource boostSound;
@@ -43,25 +45,15 @@ public class PlayerFighter : MonoBehaviour
     public float minEngineVolume;
     public float maxEngineVolume;
 
-
-    private Transform dockTransform;
-    public bool IsDocked {
-        get { return dockTransform != null; }
-    }
-
     private bool active;
     private bool docking;
-    private bool docked;
-
-    private Rigidbody rb;
-    public Rigidbody Rigidbody {
-        get { return rb; }
-    }
 
     private float throttleInput;
 
     public PlayerInput playerInput;
     public Player player;
+
+    public float aimAssistRadius = 5f;
     private void Awake() {
         rb = GetComponent<Rigidbody>();
     }
@@ -104,6 +96,11 @@ public class PlayerFighter : MonoBehaviour
         
         rb.AddTorque(torque);
 
+
+        speedIndicator.transform.localScale = Vector3.one 
+            * Mathf.Clamp01(rb.velocity.sqrMagnitude / Mathf.Pow(boostCutoffs[BoostLevel], 2))
+            * maxSpeedScale;
+
         if (CanBoost()) {
             float now = Time.fixedTime;
             if (!boostChanging) {
@@ -120,6 +117,74 @@ public class PlayerFighter : MonoBehaviour
                 }
             }
         }
+
+        /**
+         * Weapons
+         */
+
+        if (playerInput.PrimaryFireInput || playerInput.SecondaryFireInput || playerInput.EquipmentInput) {
+            RaycastHit hit;
+            if (Physics.SphereCast(transform.position, aimAssistRadius, transform.forward, out hit)) {
+                var h = hit.collider.GetComponent<Health>();
+                if (h != null) {
+                    if (primary) {
+                        AimWeaponAt(primary.transform, hit.point);
+                    }
+                    if (secondary) {
+                        AimWeaponAt(secondary.transform, hit.point);
+                    }
+                    if (equipment) {
+                        AimWeaponAt(equipment.transform, hit.point);
+                    }
+                }
+            } else {
+                if (primary) {
+                    primary.transform.rotation = Quaternion.LookRotation(transform.forward, transform.up);
+                }
+                if (secondary) {
+                    secondary.transform.rotation = Quaternion.LookRotation(transform.forward, transform.up);
+                }
+                if (equipment) {
+                    equipment.transform.rotation = Quaternion.LookRotation(transform.forward, transform.up);
+                }
+            }
+
+            if (primary) {
+                if (playerInput.PrimaryFireDown) {
+                    primary.Fire();
+                } else if (playerInput.PrimaryFireHeld) {
+                    primary.Hold();
+                } else if (playerInput.PrimaryFireReleased) {
+                    primary.Release();
+                }
+            }
+
+            if (playerInput.SecondaryFireInput && secondary) {
+                if (playerInput.SecondaryFireDown) {
+                    secondary.Fire();
+                } else if (playerInput.SecondaryFireHeld) {
+                    secondary.Hold();
+                } else if (playerInput.SecondaryFireReleased) {
+                    secondary.Release();
+                }
+            }
+
+            if (playerInput.EquipmentInput && equipment) {
+                if (playerInput.EquipmentDown) {
+                    equipment.Fire();
+                } else if (playerInput.EquipmentHeld) {
+                    equipment.Hold();
+                } else if (playerInput.EquipmentReleased) {
+                    equipment.Release();
+                }
+            }
+        }
+    }
+
+    private void AimWeaponAt(Transform weaponTransform, Vector3 point) {
+        Vector3 direction = (point - weaponTransform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        weaponTransform.rotation = lookRotation;
     }
 
     public bool CanBoost() {
@@ -139,22 +204,6 @@ public class PlayerFighter : MonoBehaviour
             boostSound.Play();
             engineSound.pitch = Mathf.Lerp(minEnginePitch, maxEnginePitch, ((float) boostLevel / (float) boostCutoffs.Length));
             engineSound.volume = Mathf.Lerp(minEngineVolume, maxEngineVolume, ((float) boostLevel / (float) boostCutoffs.Length));
-        }
-    }
-
-    public void StartAllParticles(ParticleSystem[] particleGroup) {
-        foreach (ParticleSystem p in particleGroup) {
-            if (!p.isPlaying) {
-                p.Play();
-            }
-        }
-    }
-
-    public void StopAllParticles(ParticleSystem[] particleGroup) {
-        foreach (ParticleSystem p in particleGroup) {
-            if (p.isPlaying) {
-                p.Stop();
-            }            
         }
     }
 

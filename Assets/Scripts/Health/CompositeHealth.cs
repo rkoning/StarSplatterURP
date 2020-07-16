@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using AI.Factions;
-
 public class CompositeHealth : Health {
 
     public List<ComponentHealth> components;
@@ -27,9 +25,8 @@ public class CompositeHealth : Health {
         currentStructurePoints = maxStructurePoints;
     }
     
-    public override bool TakeDamage(float damage, MajorFaction faction, bool structureDamage) {
+    public override bool TakeDamage(float damage, bool structureDamage) {
         if (structureDamage) {
-            lastDamagedBy = faction;
             currentStructurePoints -= damage;
             OnStructureDamaged(currentStructurePoints, maxStructurePoints, damage);
             Damage();
@@ -42,9 +39,8 @@ public class CompositeHealth : Health {
         return false;
     }
 
-    public void TakeComponentDamage(ComponentHealth ch, MajorFaction faction) {
+    public void TakeComponentDamage(ComponentHealth ch) {
         currentHealth -= 1;
-        lastDamagedBy = faction;
         components.Remove(ch);
         Damage();
         if (currentHealth <= 0) {
@@ -68,7 +64,7 @@ public class CompositeHealth : Health {
                 try {
                     var comp = components[Random.Range(0, components.Count)];
                     if (comp) {
-                        comp.TakeDamage(instance, lastDamagedBy, false);
+                        comp.TakeDamage(instance, false);
                     }
                 } catch {}
             }
@@ -98,7 +94,7 @@ public class CompositeHealth : Health {
         maxHealth = components.Count;
         currentHealth = maxHealth;
         for (int i = 0; i < maxHealth; i++) {
-            this.components[i].OnDeath += (Health h) => { TakeComponentDamage((ComponentHealth) h, h.GetLastDamagedBy()); };
+            this.components[i].OnDeath += (Health h) => { TakeComponentDamage((ComponentHealth) h); };
         }
     }
 }

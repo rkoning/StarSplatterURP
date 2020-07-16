@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 
-using AI.Factions;
-
 public abstract class Ship : MonoBehaviour
 {
 
-    public Target target;
+    public Targetable target;
     
-    protected Target self;
-    public Target Self {
+    protected Targetable self;
+    public Targetable Self {
         get { return self; }
     }
 
@@ -30,10 +28,12 @@ public abstract class Ship : MonoBehaviour
     public bool docked;
     protected Transform dockTransform;
 
+    public Transform engineTransform;
+
     protected virtual void Start() {
         rb = GetComponent<Rigidbody>();
         health = GetComponent<Health>();
-        self = GetComponent<Target>();
+        self = GetComponent<Targetable>();
         health.OnDeath += OnDeath;
         health.OnDamaged += OnDamaged;
         SetupWeapons();

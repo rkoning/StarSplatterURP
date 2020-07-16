@@ -1,7 +1,5 @@
 using UnityEngine;
 
-using AI.Factions;
-
 public class LightHealth : Health
 {
 
@@ -38,14 +36,13 @@ public class LightHealth : Health
     /// </summary>
     /// <param name="damage">Amount of damage to deal.</param>
     /// <returns>True if this was damaged by the hit.</returns>
-    public override bool TakeDamage(float damage, MajorFaction faction, bool structureDamage) {
+    public override bool TakeDamage(float damage, bool structureDamage) {
         // if the invincibily delay has not timed out, then return false.
         if (Time.fixedTime < nextHit) {
             return false;
         }
 
         nextHit = invincibiltyDelay + Time.fixedTime;
-        lastDamagedBy = faction;
         Damage();
 
         // if shielded, then redirect damage onto the shield and return true
@@ -78,10 +75,13 @@ public class LightHealth : Health
     /// </summary>
     public override void Die() {
         dead = true;
-        ExplosionParticles.transform.SetParent(null);
-        ExplosionParticles.Play();
-        Destroy(ExplosionParticles, ExplosionParticles.main.duration);
+        if (ExplosionParticles) {
+            ExplosionParticles.transform.SetParent(null);
+            ExplosionParticles.Play();
+            Destroy(ExplosionParticles, ExplosionParticles.main.duration);
+        }
         Death();
+        Destroy(this);
     }
 
     public override void Heal(float health) {

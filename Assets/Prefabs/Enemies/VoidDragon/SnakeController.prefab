@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3492918691039199292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3492918691039199295}
+  - component: {fileID: 3492918691039199289}
+  - component: {fileID: 3492918691039199294}
+  - component: {fileID: 3492918691039199288}
+  - component: {fileID: 3492918691039199291}
+  - component: {fileID: 3492918691039199290}
+  - component: {fileID: 3492918691039199285}
+  m_Layer: 14
+  m_Name: SnakeController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3492918691039199295
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -500}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &3492918691039199289
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 1
+  m_AngularDrag: 0.5
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &3492918691039199294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32dd18ec69aec4a42a238dfb1a19e70e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  primary: {fileID: 0}
+  secondary: {fileID: 0}
+  equipment: {fileID: 0}
+  primaryAnchors: []
+  secondaryAnchors: []
+  equipmentAnchors: []
+  docked: 0
+  currentTarget: {fileID: 0}
+  alive: 1
+  minAttackRange: 50
+  maxAttackRange: 300
+  strafePoint: {x: 0, y: 0, z: 0}
+  evading: 0
+  evadeDistance: 100
+  evadeTime: 3
+  launchDuration: 3
+  accuracySpread: 20
+  accuracyIncreasePerShot: 0.5
+  loseInterestAfter: 5
+  intrestLostPerShot: 1
+  turnSpeed: 1.54
+  baseThrustForce: 80
+  brakeForce: 5
+  thrustForce: 5
+  boostForce: 5
+--- !u!114 &3492918691039199288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 641bfc99a9680ce469c473758ee6adad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDamagedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  maxHealth: 100
+  invincibiltyDelay: 0
+  DamageParticles: {fileID: 0}
+  ExplosionParticles: {fileID: 0}
+--- !u!114 &3492918691039199291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35aa7ba79408ec40b8955d3a6db150d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 5
+--- !u!135 &3492918691039199290
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.00001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3492918691039199285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c4dd5d6ac853c47a38c6709a003d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sections: []
+  xAxisCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  yAxisCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  zAxisCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  buffer: 300
+  maxDist: 18
+  speed: 20
+  initialDist: 0.1
+  bodySectionPrefab: {fileID: 3640156706009925673, guid: a81642cd6b586934b91815597bdcfed5,
+    type: 3}
+  headPrefab: {fileID: 3222644651779787991, guid: 9b7cf369e13067e4895f1bd717cc0223,
+    type: 3}
+  tailPrefab: {fileID: 1822203410633257311, guid: 53153e02f92dc4e4db0123010b0ee04f,
+    type: 3}
+  initialSections: 100
+  fighterPrefab: {fileID: 3492918691039199292}
+  buildOnStart: 1

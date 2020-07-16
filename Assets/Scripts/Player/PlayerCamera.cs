@@ -6,8 +6,7 @@ public class PlayerCamera : MonoBehaviour, ICameraBehaviour
 {
     
     [Header("Follow")]
-    private Transform target;
-    public Transform Target { set { target = value; } }
+    public Transform target;
 
     public Vector3 offset;
 
@@ -117,7 +116,6 @@ public class PlayerCamera : MonoBehaviour, ICameraBehaviour
 
                 // multipling an euler to the target's current rotation will rotate the camera relative to the target.
                 Quaternion rotation = target.rotation * Quaternion.Euler(y, x, 0);
-
 
                 // Slerp the rotation for a smoothed camera
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.fixedDeltaTime);

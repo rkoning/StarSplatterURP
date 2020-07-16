@@ -1,17 +1,15 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-using AI.Factions;
-
 public class Weapon : MonoBehaviour
 {
-
     public GameObject projectorPrefab;
-
+    public Targetable owner;
     public float coolDown;
-    public int damage;
     protected float nextShot;
-
+  
+    public float damage;   
+    
     public delegate void FireAction();
     public event FireAction OnFire;
 
@@ -28,8 +26,6 @@ public class Weapon : MonoBehaviour
         get { return projectors; }
     }
     
-    public Target owner;
-
     private Vector3 firePoint;
     public Vector3 FirePoint {
         get { return firePoint; }
@@ -67,7 +63,7 @@ public class Weapon : MonoBehaviour
     }
 
     public void AddProjectorTo(Transform t) {
-        var newWeaponModel = GameObject.Instantiate(projectorPrefab, t);
+        var newWeaponModel = GameObject.Instantiate(projectorPrefab, t.position, t.rotation, t);
         var newProjector = newWeaponModel.GetComponentInChildren<Projector>();
         newProjector.Weapon = this;
         newProjector.Damage = damage;
@@ -81,9 +77,7 @@ public class Weapon : MonoBehaviour
         foreach (var mode in modes) {
             mode.SetProjector(projectors[0]);
         }
-    }
-
-    /**
+    }    /**
      * Calls OnFire() on the first firemode if the weapon is not on cooldown, then starts the weapons cooldown time.
      * returns true if the weapon was fired.
      */
@@ -115,6 +109,7 @@ public class Weapon : MonoBehaviour
     public void StartCooldown() {
         nextShot = Time.fixedTime + coolDown;
     }
+
     /// <summary>
     /// Gets the range of the first projector if it exists, returns 0 otherwise.
     /// </summary>

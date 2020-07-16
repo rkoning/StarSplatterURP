@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,17 +11,27 @@ public class ChargeFireMode : FireMode
 
     private bool chargeStarted = false;
 
-    public ParticleSystem chargeParticles;
+    public GameObject chargeParticlePrefab;
+
+    public ParticleSystem[] chargeParticles;
 
     public FireMode nextFireMode;
 
+    private void Start() {
+        if (chargeParticles == null) {
+            chargeParticles = new ParticleSystem[weapon.Projectors.Length];
+            for(int i = 0; i < weapon.Projectors.Length; i++) {
+                var part = GameObject.Instantiate(chargeParticlePrefab, weapon.Projectors[i].transform).GetComponent<ParticleSystem>();
+                chargeParticles[i] = part;
+            } 
+        }
+    }
+    
     public override void Fire() {
         if (!chargeStarted) {
             chargeStarted = true;
         }
-        if (chargeParticles) {
-            chargeParticles.Play();
-        }
+        ForEachParticleDo((ParticleSystem p) => { p.Play(); });
     }
 
     public override void Hold() {
@@ -28,9 +39,7 @@ public class ChargeFireMode : FireMode
             if (currentCharge <= maxHoldTime) {
                 currentCharge += Time.deltaTime;
             } else {
-                if (chargeParticles) {
-                    chargeParticles.Stop();
-                }
+                ForEachParticleDo((ParticleSystem p) => { p.Stop(); });
                 nextFireMode.Fire();
                 chargeStarted = false;
                 weapon.StartCooldown();
@@ -40,10 +49,8 @@ public class ChargeFireMode : FireMode
     }
 
     public override void Release() {
-        if (chargeParticles) {
-            chargeParticles.Stop();
-        }
-        Debug.Log(chargeStarted + " " + currentCharge + " " + chargeTime);
+        ForEachParticleDo((ParticleSystem p) => { p.Stop(); });
+        
         if (chargeStarted && currentCharge >= chargeTime) {
             nextFireMode.Fire();
             weapon.StartCooldown();
@@ -53,4 +60,10 @@ public class ChargeFireMode : FireMode
         chargeStarted = false;
     }
 
+
+    private void ForEachParticleDo(Action<ParticleSystem> action) {
+        for (int i = 0; i < chargeParticles.Length; i++) {
+            action(chargeParticles[i]);
+        }
+    }
 }

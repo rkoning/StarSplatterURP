@@ -8,7 +8,7 @@ public class OriginManager : MonoBehaviour {
 
     public FloatingOrigin floatingOrigin;
 
-    public SkyboxCamera skyboxCamera;
+    public ScaledFollow scaledViewer;
     public Sunlight sunlight;
 
     public static float skyboxScale = 100f;
@@ -27,32 +27,35 @@ public class OriginManager : MonoBehaviour {
         floatingOrigin.enabled = false;
 
         // move player to relative location
-        Vector3 playerPosition = locationContext.scaled.InverseTransformPoint(skyboxCamera.transform.position) * OriginManager.skyboxScale;
-        Quaternion playerRotation = Quaternion.Inverse(skyboxCamera.transform.rotation) * Quaternion.Inverse(locationContext.scaled.rotation);
+        Vector3 playerPosition = locationContext.scaled.InverseTransformPoint(scaledViewer.transform.position) * OriginManager.skyboxScale;
+        Quaternion playerRotation = Quaternion.Inverse(locationContext.scaled.rotation) * scaledViewer.transform.rotation;
+        // Quaternion playerRotation = scaledViewer.transform.rotation;
         floatingOrigin.SetPosition(viewer, playerPosition, playerRotation);
 
         // move skybox such that this location is the new 0,0,0
         Vector3 skyboxOrigin = locationContext.scaled.position;
         Vector3 shiftedSkyboxPosition = (skybox.transform.position - skyboxOrigin);
         skybox.transform.position = shiftedSkyboxPosition;
-        skyboxCamera.currentLocation = locationContext;
+        scaledViewer.currentLocation = locationContext;
 
         sunlight.currentLocation = locationContext;
     }
 
     public void ExitLocation(LocationContext locationContext) {
-        Quaternion playerRotation = skyboxCamera.transform.rotation;
-        // move player to relative location
+        Quaternion playerRotation = scaledViewer.transform.rotation;
+
+        // reset skybox position
         skybox.transform.position = Vector3.zero;
 
-        Vector3 playerPosition = (locationContext.scaled.rotation * viewer.position);
+        // move player to relative location
+        // Vector3 playerPosition = (locationContext.scaled.rotation * viewer.position);
+        Vector3 playerPosition = (scaledViewer.transform.position * OriginManager.skyboxScale);
+
         viewer.position = playerPosition;
         viewer.rotation = playerRotation;
         // floatingOrigin.SetPosition(viewer, playerPosition, playerRotation);
-        
-        // reset skybox position
 
-        skyboxCamera.currentLocation = null;
+        scaledViewer.currentLocation = null;
         floatingOrigin.enabled = true;
 
         sunlight.currentLocation = null;

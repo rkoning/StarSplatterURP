@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using AI.BehaviourTree;
-using AI.Factions;
 using Navigation;
 
 namespace AI {
@@ -14,9 +13,9 @@ namespace AI {
             get { return agent; }
         }
 
-        public Target target;
+        public Targetable target;
 
-        public Target currentTarget;
+        public Targetable currentTarget;
 
         protected Dynamic commandNode;
 
@@ -108,7 +107,7 @@ namespace AI {
             return State.Failure;
         }
 
-        public virtual Target GetTarget() {
+        public virtual Targetable GetTarget() {
             return target;
         }
 
@@ -137,7 +136,7 @@ namespace AI {
             return target.transform.position;
         }
 
-        public void SetTarget(Target target) {
+        public void SetTarget(Targetable target) {
             this.target = target;
         }
 

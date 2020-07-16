@@ -19,7 +19,7 @@ public class ComponentHealth : LightHealth {
         if (!dead) {
             base.Die();
             DamageParticles.transform.SetParent(parent.transform);
-            parent.TakeComponentDamage(this, lastDamagedBy);
+            parent.TakeComponentDamage(this);
             if (destroyOnDeath) {
                 Destroy(gameObject);
             }
