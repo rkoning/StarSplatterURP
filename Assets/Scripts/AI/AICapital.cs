@@ -9,9 +9,6 @@ namespace AI {
       public float attackRange;
       public float minAttackRange;
 
-      protected Dynamic defenseNode = new Dynamic(new Selector(new Node[] {}));
-      protected Dynamic offenseNode = new Dynamic(new Selector(new Node[] {}));
-
       [Header("Physics Forces")]
       public float turnSpeed;
       public float baseThrustForce;
@@ -20,35 +17,8 @@ namespace AI {
       
       protected override void Start() {
          base.Start();
-
-         Node bT = new Selector(new Node[] {
-               new Sequence(new Node[] {
-                  new Node(HasBeenHit),
-                  defenseNode
-               }),
-               commandNode,
-               offenseNode,
-               new Node(Idle)
-         });
-         SetBehaviourTreeRoot(bT);
       }
       
-      public void SetDefenseNode(Node node) {
-         defenseNode.SetNode(node);
-      }
-
-      public void SetOffenseNode(Node node) {
-         offenseNode.SetNode(node);
-      }
-
-      public void AppendDefenseNode(Node node) {
-         ((Selector) defenseNode.node).AppendNode(node);
-      }
-
-      public void AppendOffenseNode(Node node) {
-         ((Selector) offenseNode.node).AppendNode(node);
-      }
-
       public State MoveTo() {
          if (agent.SquaredDistanceToTarget < Mathf.Pow(minAttackRange, 2)) {
                return State.Success;

@@ -3,7 +3,7 @@
 // using UnityEngine;
 // using BehaviourTree;
 
-// public class BattleShipComponent : CapitalComponent
+// public class BattleShipComponent : ShipComponent
 // {
 //     public Weapon primaryWeapon;
 

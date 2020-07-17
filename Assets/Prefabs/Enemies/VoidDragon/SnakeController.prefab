@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 3492918691039199291}
   - component: {fileID: 3492918691039199290}
   - component: {fileID: 3492918691039199285}
+  - component: {fileID: 77077538}
+  - component: {fileID: 5567206350247119334}
   m_Layer: 14
   m_Name: SnakeController
   m_TagString: Untagged
@@ -72,6 +74,7 @@ MonoBehaviour:
   secondaryAnchors: []
   equipmentAnchors: []
   docked: 0
+  engineTransform: {fileID: 0}
   currentTarget: {fileID: 0}
   alive: 1
   minAttackRange: 50
@@ -81,11 +84,11 @@ MonoBehaviour:
   evadeDistance: 100
   evadeTime: 3
   launchDuration: 3
-  accuracySpread: 20
-  accuracyIncreasePerShot: 0.5
-  loseInterestAfter: 5
-  intrestLostPerShot: 1
-  turnSpeed: 1.54
+  accuracySpread: 1000
+  accuracyIncreasePerShot: 0
+  loseInterestAfter: 12000
+  intrestLostPerShot: 0
+  turnSpeed: 0.5
   baseThrustForce: 80
   brakeForce: 5
   thrustForce: 5
@@ -109,6 +112,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   maxHealth: 100
+  currentHealth: 0
+  damageFlashEnabled: 0
+  flashColor: {r: 0, g: 0, b: 0, a: 0}
+  flashRenderer: {fileID: 0}
   invincibiltyDelay: 0
   DamageParticles: {fileID: 0}
   ExplosionParticles: {fileID: 0}
@@ -124,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35aa7ba79408ec40b8955d3a6db150d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 5
+  size: 10
 --- !u!135 &3492918691039199290
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -169,7 +176,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  buffer: 300
+  buffer: 500
   maxDist: 18
   speed: 20
   initialDist: 0.1
@@ -182,3 +189,45 @@ MonoBehaviour:
   initialSections: 100
   fighterPrefab: {fileID: 3492918691039199292}
   buildOnStart: 1
+--- !u!114 &77077538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 641bfc99a9680ce469c473758ee6adad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnDamagedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  maxHealth: 0
+  currentHealth: 0
+  damageFlashEnabled: 0
+  flashColor: {r: 0, g: 0, b: 0, a: 0}
+  flashRenderer: {fileID: 0}
+  invincibiltyDelay: 0
+  DamageParticles: {fileID: 0}
+  ExplosionParticles: {fileID: 0}
+--- !u!114 &5567206350247119334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3492918691039199292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 677ca7077a5f93c41a31222740b41c99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clusterHealth: {fileID: 0}
+  destroyed: 0
+  turretParent: {fileID: 0}
+  disableTime: 30

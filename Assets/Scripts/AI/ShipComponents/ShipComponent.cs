@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using AI.BehaviourTree;
 
 namespace AI {
-   public abstract class CapitalComponent : MonoBehaviour {
+   public abstract class ShipComponent : MonoBehaviour {
 
       public CompositeHealth clusterHealth;
 
       public bool destroyed;
 
-      protected AICapital shipPilot;
+      protected AIShip ship;
       protected virtual void Start() {
-         shipPilot = GetComponent<AICapital>();
+         ship = GetComponent<AIShip>();
 
          if (clusterHealth) {
             clusterHealth.OnDeath += OnHealthDestroyed;

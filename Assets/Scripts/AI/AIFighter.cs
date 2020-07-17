@@ -55,46 +55,33 @@ namespace AI {
             base.Start();
             remainingInterest = loseInterestAfter;
 
-            attackNode = new Selector(new Node[] {
-                new Sequence(new Node[] {                   // check if we should keep shooting at the same target
-                    new Inverter(new Node(CheckInterest)),
-                    new Node(EvadeStart),                   // if intrest is lost, start evading to a random point
+            AppendOffenseNode(new Selector(new Node[] {
+                new Sequence(new Node[] {
+                    new Node(IsEvading),
+                    new Node(Evade),                     // check if we should be evading
+                    new Node(GetRouteTo),
+                    new Node(MoveToPosition)             // go to the evade point
                 }),
                 new Sequence(new Node[] {
-                    new Node(GetRouteTo),                   // if we have intrest, try to attack the target until we loose it
-                    new Node(SeekTarget),                   // Follow target
-                    new Node(AttackTarget)                  // Attack the target if it is in range
-                }),
-            });
+                    new Node(HasTarget),
+                    new Inverter(new Sequence(new Node[] {                   // check if we should keep shooting at the same target
+                        new Inverter(new Node(CheckInterest)),
+                        new Node(EvadeStart),                   // if intrest is lost, start evading to a random point
+                    })),
+                    new Sequence(new Node[] {
+                        new Node(GetRouteTo),                   // if we have intrest, try to attack the target until we loose it
+                        new Node(SeekTarget),                   // Follow target
+                        new Node(AttackTarget)                  // Attack the target if it is in range
+                    })
+                })
+            }));
 
-            Selector entry = new Selector(                      // Select between finding a target and idle
-                new Node[] {                                    // Select choices
-                    new Node(IsActive,                          // Make sure we aren't docked
-                        new Selector(
-                            new Node[] {
-                                commandNode,                    // execute the commandNode if we have one
-                                new Sequence(new Node[] {       
-                                    new Node(HasBeenHit),           // check if we have been hit in the last frame
-                                    new Node(EvadeStart),           // if so, start evading
-                                    new Node(GetRouteTo)            // get route to the evade point
-                                }),
-                                new Sequence(new Node[] {
-                                    new Node(IsEvading),
-                                    new Node(Evade),                     // check if we should be evading
-                                    new Node(GetRouteTo),
-                                    new Node(MoveToPosition)             // go to the evade point
-                                }),
-                                new Sequence(new Node[] {
-                                    new Node(HasTarget),
-                                    attackNode
-                                })
-                        })  
-                    ),
-                    new Node(Idle, null)                        // if there is no target, idle
-                }
+            AppendDefenseNode(
+                new Sequence(new Node[] {       
+                    new Node(EvadeStart),           // if so, start evading
+                    new Node(GetRouteTo)            // get route to the evade point
+                })
             );
-
-            SetBehaviourTreeRoot(entry);
         }
 
         /// <summary>

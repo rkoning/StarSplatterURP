@@ -59,9 +59,6 @@ namespace AI.BehaviourTree
             this.nodes = new Node[this.nodes.Length + 1];
             ns.CopyTo(this.nodes, 0);
             this.nodes[this.nodes.Length - 1] = n;
-            // for (int i = 0; i < this.nodes.Length; i++) {
-            //     Debug.Log(this.nodes[i].ToString());
-            // }
         }
 
         public override State Evaluate() {
@@ -124,6 +121,13 @@ namespace AI.BehaviourTree
             this.nodes = nodes;
         }
 
+        public void AppendNode(Node n) {
+            var ns = this.nodes;
+            this.nodes = new Node[this.nodes.Length + 1];
+            ns.CopyTo(this.nodes, 0);
+            this.nodes[this.nodes.Length - 1] = n;
+        }
+        
         public override State Evaluate() {
             State firstNodeState = nodes[0].Evaluate();
             for(int i = 1; i < nodes.Length; i++) {

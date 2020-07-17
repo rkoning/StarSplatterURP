@@ -26,15 +26,12 @@ namespace AI {
         protected override void Start() {
             base.Start();
 
-            Node entry = new Selector(new Node[] {
-                commandNode,
+            AppendOffenseNode(
                 new Sequence(new Node[] {
                     new Node(HasTarget),
                     new Node(AttackTarget)
-                }),
-                new Node(Idle)              // if a target was not found, practice neutral chi
-            });
-            SetBehaviourTreeRoot(entry);
+                })
+            );
         }
 
         private State TargetInView() {
@@ -65,11 +62,11 @@ namespace AI {
             // Ray ray = new Ray(barrelPivot.position + barrelPivot.forward * 10f, targetPosition - (barrelPivot.position + barrelPivot.forward * 10f));
 
             RaycastHit hit;
-            if (Physics.Raycast(barrelPivot.position, targetPosition - barrelPivot.position, out hit)) {
-                if (hit.collider.gameObject != target.gameObject) {
-                    return State.Failure;       
-                }
-            }
+            // if (Physics.Raycast(barrelPivot.position, targetPosition - barrelPivot.position, out hit)) {
+            //     if (hit.collider.gameObject != target.gameObject) {
+            //         return State.Failure;       
+            //     }
+            // }
             
             if (Vector3.Dot(barrelPivot.forward, (targetPosition - barrelPivot.position).normalized) > accuracy) {
                 primary.Fire();

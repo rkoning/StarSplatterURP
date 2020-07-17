@@ -2,7 +2,7 @@
 using AI.BehaviourTree;
 
 namespace AI {
-   public class CargoComponent : CapitalComponent
+   public class CargoComponent : ShipComponent
    {
       private AICapital ship;
 

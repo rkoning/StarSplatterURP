@@ -3,7 +3,7 @@
 // using UnityEngine;
 // using BehaviourTree;
 
-// public class CarrierComponent : CapitalComponent
+// public class CarrierComponent : ShipComponent
 // {
 
 //     public GameObject fighterPrefab;

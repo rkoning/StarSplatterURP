@@ -13,23 +13,48 @@ namespace AI {
 
         public Targetable currentTarget;
 
+        public bool alive = true;
+
         protected Dynamic commandNode;
-
-        protected Node attackNode;
-
-        public bool alive;
-        public Node AttackNode {
-            get { return attackNode; }
-        }
+        protected Dynamic defenseNode = new Dynamic(new Parallel(new Node[] {}));
+        protected Dynamic offenseNode = new Dynamic(new Parallel(new Node[] {}));
 
         protected bool hit;
-
+        protected Node bT;
         protected override void Start() {
             base.Start();
             agent = GetComponent<NavTreeAgent>();
             // the command node should always return a failure if there is not a command running.
             commandNode = new Dynamic(new Node(() => { return State.Failure;}));
+            
+            bT = new Selector(new Node[] {
+                new Sequence(new Node[] {
+                    new Node(HasBeenHit),
+                    defenseNode
+                }),
+                commandNode,
+                offenseNode,
+                new Node(Idle)
+            });
+            SetBehaviourTreeRoot(bT);
         }
+
+        public void SetDefenseNode(Node node) {
+            defenseNode.SetNode(node);
+        }
+
+        public void SetOffenseNode(Node node) {
+            offenseNode.SetNode(node);
+        }
+
+        public void AppendDefenseNode(Node node) {
+            ((Parallel) defenseNode.node).AppendNode(node);
+        }
+
+        public void AppendOffenseNode(Node node) {
+            ((Parallel) offenseNode.node).AppendNode(node);
+        }
+
 
         public void SetBehaviourTreeRoot(Node root) {
             this.root = root;
@@ -98,6 +123,7 @@ namespace AI {
         /// <returns>Success if the ship has been damaged in the last frame.</returns>
         protected State HasBeenHit() {
             if (hit) {
+                Debug.Log(this.name + " HasBeenHit");
                 hit = false;
                 return State.Success;
             }

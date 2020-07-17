@@ -3,6 +3,8 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 
+using AI;
+
 public class Snake : MonoBehaviour {
    public List<GameObject> sections;
 
@@ -24,6 +26,10 @@ public class Snake : MonoBehaviour {
    public GameObject headPrefab;
    public GameObject tailPrefab;
 
+   public GameObject bodyParentPrefab;
+   private Transform body;
+
+
    public int initialSections;
    private int currentSections;
 
@@ -43,7 +49,10 @@ public class Snake : MonoBehaviour {
          lastPosition = transform.position;
          return;
       }
+      body = GameObject.Instantiate(bodyParentPrefab, Vector3.zero, Quaternion.identity).transform;
       sections = BuildSnake(initialSections);
+      var turrets = GetComponent<TurretSystemComponent>();
+      turrets.turretParent = body;
       currentSections = initialSections;
 
       keyFrameLength = buffer + sections.Count;
@@ -57,18 +66,18 @@ public class Snake : MonoBehaviour {
 
    public List<GameObject> BuildSnake(int sections) {
       var newSections = new List<GameObject>();
-      var head = GameObject.Instantiate(headPrefab, transform.position, transform.rotation);
+      var head = GameObject.Instantiate(headPrefab, transform.position, transform.rotation, body);
       var laser = head.GetComponentInChildren<Weapon>();
       GetComponent<AI.AIFighter>().primary = laser;
       newSections.Add(head);
       for (int i = 0; i < sections; i++) {
-         var section = GameObject.Instantiate(bodySectionPrefab, transform.position + transform.forward * maxDist * i, transform.rotation);
+         var section = GameObject.Instantiate(bodySectionPrefab, transform.position + transform.forward * maxDist * i, transform.rotation, body);
          newSections.Add(section);
          int current = i;
          section.GetComponent<SnakeSection>().SetDeathAction((Health h) => { SplitAt(current); });
       }
 
-      var tail = GameObject.Instantiate(tailPrefab, transform.position + transform.forward * maxDist * (sections + 1), transform.rotation);
+      var tail = GameObject.Instantiate(tailPrefab, transform.position + transform.forward * maxDist * (sections + 1), transform.rotation, body);
       newSections.Add(tail);
       return newSections;
    }
@@ -101,7 +110,8 @@ public class Snake : MonoBehaviour {
       }
       // split sections into 2 lists
       Transform splitTransform = sections[index].transform;
-      var newSnake = GameObject.Instantiate(fighterPrefab, splitTransform.position, splitTransform.rotation).GetComponent<Snake>();
+      Transform newBody = GameObject.Instantiate(bodyParentPrefab, Vector3.zero, Quaternion.identity).transform;
+      var newSnake = GameObject.Instantiate(fighterPrefab, splitTransform.position, splitTransform.rotation, newBody).GetComponent<Snake>();
 
       Debug.Log("KeyFrameLength: " + keyFrameLength);
       int pointsIndex = (int) (((float) index / (float) sections.Count) * keyFrameLength);
@@ -112,12 +122,16 @@ public class Snake : MonoBehaviour {
       // add split events
       for (int i = 0; i < end.Count; i++) {
          var section = end[i].GetComponentInChildren<SnakeSection>();
-         if (section)
+         if (section) {
             section.SetDeathAction((Health h) => { SplitAt(i); });
+            section.transform.SetParent(newBody);
+         }
       }
 
+      newSnake.GetComponent<TurretSystemComponent>().SetTurretParent(newBody);
+
       // add new head to the end
-      var head = GameObject.Instantiate(headPrefab, splitTransform.position, splitTransform.rotation);
+      var head = GameObject.Instantiate(headPrefab, splitTransform.position, splitTransform.rotation, body);
 
       var laser = head.GetComponentInChildren<Weapon>();
       newSnake.GetComponent<AI.AIFighter>().primary = laser;
@@ -135,7 +149,7 @@ public class Snake : MonoBehaviour {
 
       newSnake.GetComponent<AI.AIFighter>().target = GetComponent<AI.AIFighter>().currentTarget;
       sections = sections.GetRange(0, index);
-      var tail = GameObject.Instantiate(tailPrefab, splitTransform.position, splitTransform.rotation);
+      var tail = GameObject.Instantiate(tailPrefab, splitTransform.position, splitTransform.rotation, body);
       sections.Add(tail);
       buffer = sections.Count * 3;
       keyFrameLength = buffer + sections.Count;

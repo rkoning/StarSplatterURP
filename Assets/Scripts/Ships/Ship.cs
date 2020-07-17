@@ -34,8 +34,10 @@ public abstract class Ship : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         health = GetComponent<Health>();
         self = GetComponent<Targetable>();
-        health.OnDeath += OnDeath;
-        health.OnDamaged += OnDamaged;
+        if (health) {
+            health.OnDeath += OnDeath;
+            health.OnDamaged += OnDamaged;
+        }
         SetupWeapons();
     }
 
