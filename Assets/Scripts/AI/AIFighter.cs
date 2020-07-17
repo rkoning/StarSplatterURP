@@ -144,9 +144,9 @@ namespace AI {
             // Debug.DrawLine(transform.position, agent.NextPosition, Color.blue);
             if (agent.SquaredDistanceToTarget < Mathf.Pow(maxAttackRange, 2)) {
                 remainingInterest -= Time.deltaTime;
-                // if (Vector3.Angle(transform.forward, GetAttackPoint(currentTarget.transform, accuracySpread - accuracyModifier) - transform.position) < 2f) {
-                //     return State.Success;
-                // }
+                if (Vector3.Angle(transform.forward, GetAttackPoint(currentTarget.transform, accuracySpread - accuracyModifier) - transform.position) < 2f) {
+                    return State.Success;
+                }
                 return State.Success;
             }
             return State.Running;

@@ -33,14 +33,19 @@ public class Snake : MonoBehaviour {
 
    private Action<Health> sectionDeathAction;
 
+   private Health mainHealth;
+
    private void Start() {
+      mainHealth = GetComponent<Health>();
+      buffer = 3 * initialSections;
       if (!buildOnStart) {
+         keyFrameLength = buffer + initialSections;
+         lastPosition = transform.position;
          return;
       }
       sections = BuildSnake(initialSections);
       currentSections = initialSections;
 
-      lastPosition = transform.position;
       keyFrameLength = buffer + sections.Count;
       points = new PointArray(keyFrameLength);
 
@@ -73,8 +78,20 @@ public class Snake : MonoBehaviour {
    }
 
    public void SplitAt(int index) {
+      Debug.Log(" Splitting at: " + index);
       if (index < 2 || index > sections.Count - 1) {
          Debug.Log("Can not split at: " + index);
+         if (sections.Count <= 3) {
+            Debug.Log("Final Health Section destroyed, dying");
+            foreach(var s in sections) {
+               Destroy(s);
+            }
+            mainHealth.Die();
+         } else {
+            var removed = sections[index];
+            sections.RemoveAt(index);
+            Destroy(removed);
+         }
          return;
       }
 
@@ -86,9 +103,12 @@ public class Snake : MonoBehaviour {
       Transform splitTransform = sections[index].transform;
       var newSnake = GameObject.Instantiate(fighterPrefab, splitTransform.position, splitTransform.rotation).GetComponent<Snake>();
 
+      Debug.Log("KeyFrameLength: " + keyFrameLength);
       int pointsIndex = (int) (((float) index / (float) sections.Count) * keyFrameLength);
       
       var end = sections.GetRange(index, sections.Count - index);
+
+      Debug.Log("End count: " + end.Count);
       // add split events
       for (int i = 0; i < end.Count; i++) {
          var section = end[i].GetComponentInChildren<SnakeSection>();
@@ -104,7 +124,9 @@ public class Snake : MonoBehaviour {
       end = new List<GameObject>(end.Prepend(head));
       
       newSnake.sections = end;
+      newSnake.initialSections = end.Count;
       newSnake.buildOnStart = false;
+
       var endPoints = points.GetRange(pointsIndex, keyFrameLength - pointsIndex - 1);
       newSnake.keyFrameLength = (int) (index / (float) sections.Count) * keyFrameLength;
       newSnake.SetPoints(endPoints);
@@ -115,14 +137,15 @@ public class Snake : MonoBehaviour {
       sections = sections.GetRange(0, index);
       var tail = GameObject.Instantiate(tailPrefab, splitTransform.position, splitTransform.rotation);
       sections.Add(tail);
+      buffer = sections.Count * 3;
       keyFrameLength = buffer + sections.Count;
-      this.SetPoints(points.GetRange(0, pointsIndex));
-      SetKeys();      
-
-      // throw new System.Exception("OUCH");
+      SetPoints(points.GetRange(0, pointsIndex));
+      SetKeys();    
    }
 
    private void FixedUpdate() {
+      if (mainHealth.Dead)
+         return;
       if ((transform.position - lastPosition).sqrMagnitude > maxDist) {
          lastPosition = transform.position;
          points.AddPoint(lastPosition);

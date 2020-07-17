@@ -81,7 +81,7 @@ public class LightHealth : Health
             Destroy(ExplosionParticles, ExplosionParticles.main.duration);
         }
         Death();
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     public override void Heal(float health) {

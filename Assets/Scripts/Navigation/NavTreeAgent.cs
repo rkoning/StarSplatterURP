@@ -79,17 +79,17 @@ namespace Navigation
         }
 
         private void OnDrawGizmos() {
-            if (route == null)
-                    return;
-            for (int i = 0; i < route.points.Count - 1; i++) {
-                Handles.Label(route.points[i].GetPosition(), i.ToString());
-            }  
+            // if (route == null)
+            //         return;
+            // for (int i = 0; i < route.points.Count - 1; i++) {
+            //     Handles.Label(route.points[i].GetPosition(), i.ToString());
+            // }  
         }
 
         private void Update() {
-            if (route != null && route.points.Count > 0) {
-                DrawRoute();
-            }
+            // if (route != null && route.points.Count > 0) {
+            //     DrawRoute();
+            // }
         }
 
         public void DrawRoute() {

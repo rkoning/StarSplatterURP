@@ -28,6 +28,7 @@ public class ChargeFireMode : FireMode
     }
     
     public override void Fire() {
+        Debug.Log("Fire");
         if (!chargeStarted) {
             chargeStarted = true;
         }
@@ -35,6 +36,7 @@ public class ChargeFireMode : FireMode
     }
 
     public override void Hold() {
+        Debug.Log("HOLD");
         if (chargeStarted) {
             if (currentCharge <= maxHoldTime) {
                 currentCharge += Time.deltaTime;
@@ -45,6 +47,8 @@ public class ChargeFireMode : FireMode
                 weapon.StartCooldown();
                 currentCharge = 0f;
             }
+        } else {
+           Fire();
         }
     }
 
