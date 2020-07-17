@@ -1,4 +1,5 @@
-﻿   using UnityEngine;
+﻿using System.Linq;
+   using UnityEngine;
    using AI.BehaviourTree;
    using AI.CommandGroups;
 
@@ -8,20 +9,15 @@
          
          public Transform turretParent;
 
-         protected AITurret[] turrets = new AITurret[0];
-
-         private CommandGroup turretCommandGroup;
+         private Weapon turretWeapon;
+         
+         protected TurretProjector[] turrets = new TurretProjector[0];
 
          public float range;
-
-         public float disableTime = 30f;
-         private float disableEnd = -1f;
-         private bool disabling = false;
 
          protected override void Start()
          {
             base.Start();
-
             if (turretParent != null) {
               SetTurretParent(turretParent);
             }
@@ -29,17 +25,25 @@
 
          public void SetTurretParent(Transform turretParent) {
             this.turretParent = turretParent;
-            turretCommandGroup = turretParent.GetComponent<CommandGroup>();
-            turrets = turretParent.GetComponentsInChildren<AITurret>();
+            turrets = turretParent.GetComponentsInChildren<TurretProjector>();
+
+            turretWeapon = turretParent.GetComponent<Weapon>();
+            turretWeapon.projectors = new Projector[turrets.Length];
+
             for (int i = 0; i < turrets.Length; i++) {
-               // turrets[i].Faction = ship..Faction;
-               var ship = turrets[i].GetComponent<AIShip>();
-               turretCommandGroup.ships.Add(ship);
+               var turret = turrets[i].GetComponent<TurretProjector>();
+               turretWeapon.projectors[i] = turret;
+               turret.Setup(
+                  turretWeapon, 
+                  turretWeapon.damage, 
+                  turretWeapon.HitDamage, 
+                  turretWeapon.HitAny
+               );
             }
 
             Node offenseNode = new Sequence(new Node[] {
-               // new Node(IsActive),
-               // new Node(TargetInRange),
+               new Node(IsActive),
+               new Node(TargetInRange),
                new Node(TurretsAttackOther)
             });
 
@@ -53,27 +57,10 @@
             ship.AppendDefenseNode(defenseNode);
          }
 
-         private void Update() {
-            // if (disabling && disableEnd < Time.fixedTime) {
-            //    for (int i = 0; i < turrets.Length; i++) {
-            //       turrets[i].SetAlive(true);
-            //    }
-            //    disabling = false;
-            // }
-         }
-
-         public override void OnHealthDestroyed(Health compHealth) {
-            // base.OnHealthDestroyed(compHealth);
-            // for (int i = 0; i < turrets.Length; i++) {
-            //    turrets[i].Pilot.SetAlive(false);
-            // }
-            // disableEnd = disableTime + Time.fixedTime;
-            // disabling = true;
-         }
-
          public State TurretsAttackOther() {
             if (ship.target != null) {
-               turretCommandGroup.SetCurrentCommand(new AttackTargetCommand(ship.target));
+               turretWeapon.target = ship.target;
+               turretWeapon.Fire();
                return State.Success;
             }
             return State.Failure;

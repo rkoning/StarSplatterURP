@@ -483,6 +483,7 @@ GameObject:
   - component: {fileID: 1916206345799596582}
   - component: {fileID: 1585684669548594596}
   - component: {fileID: 7620505958525139642}
+  - component: {fileID: 1257033797401401651}
   m_Layer: 15
   m_Name: Icosphere
   m_TagString: Untagged
@@ -591,6 +592,25 @@ MonoBehaviour:
   invincibiltyDelay: 0
   DamageParticles: {fileID: 6317367905312226983}
   ExplosionParticles: {fileID: 2530830110044708299}
+--- !u!114 &1257033797401401651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2205422892238271406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84318f7f06c42234e84d961036fb1a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 500
+  guns:
+  - {fileID: 2159586793115562352}
+  accuracy: 50
+  rotationSpeed: 100
+  turretPivot: {fileID: 8732583214046242046}
+  barrelPivot: {fileID: 5424047020620629920}
 --- !u!1 &3640156706009925673
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,8 +621,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4099988609911041040}
   - component: {fileID: 3489280848971573717}
-  - component: {fileID: 6677966626418794012}
-  - component: {fileID: -2951773442355789702}
   m_Layer: 15
   m_Name: Body
   m_TagString: Untagged
@@ -651,53 +669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 7620505958525139642}
---- !u!114 &6677966626418794012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3640156706009925673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bb25900d06ea844d9a50a9cfac4a84b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  primary: {fileID: 5381854586985677286}
-  secondary: {fileID: 0}
-  equipment: {fileID: 0}
-  primaryAnchors: []
-  secondaryAnchors: []
-  equipmentAnchors: []
-  docked: 0
-  engineTransform: {fileID: 0}
-  currentTarget: {fileID: 0}
-  alive: 1
-  accuracy: 50
-  rotationSpeed: 100
-  turretPivot: {fileID: 8732583214046242046}
-  barrelPivot: {fileID: 5424047020620629920}
-  attackRange: 400
-  minRotation: 0
-  maxRotation: 0
-  minElevation: 0
-  maxElevation: 0
-  accuracySpread: 20
-  accuracyIncreasePerShot: 0.5
---- !u!114 &-2951773442355789702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3640156706009925673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc144d51c6515447a63879994812fd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parent: {fileID: 0}
+  turret: {fileID: 1257033797401401651}
 --- !u!1 &3691939871559166524
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,8 +679,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8732583214046242046}
-  - component: {fileID: 5381854586985677286}
-  - component: {fileID: 7680737964398082637}
   m_Layer: 15
   m_Name: Turret
   m_TagString: Untagged
@@ -731,34 +701,6 @@ Transform:
   m_Father: {fileID: 4372302660619153779}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5381854586985677286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3691939871559166524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cbd640e2e9d1f642abb0274fdc132c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectorPrefab: {fileID: 0}
-  owner: {fileID: 0}
-  coolDown: 5
-  damage: 100
---- !u!114 &7680737964398082637
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3691939871559166524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca7d28e9acdc2834db5d21d15b683089, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3787922486628786572
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,7 +1315,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 66c0249551e3f944b8c6bdc637cf7046, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1417,9 +1359,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.7924528, g: 0, b: 0, a: 1}
+      key1: {r: 0.79607844, g: 0.42959097, b: 0.019607848, a: 1}
+      key2: {r: 1, g: 1, b: 1, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1427,7 +1369,7 @@ LineRenderer:
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
-      ctime2: 0
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -1469,7 +1411,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 4097
-  maxWidth: 0.33
+  maxWidth: 2
   widthCurve:
     serializedVersion: 2
     m_Curve:
@@ -1678,15 +1620,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dea0f3e66b5e18449931c224c54e591, type: 3}
---- !u!4 &6317367905312226985 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3267848901674270059, guid: 8dea0f3e66b5e18449931c224c54e591,
-    type: 3}
-  m_PrefabInstance: {fileID: 8859275223974233026}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &6317367905312226983 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 3267848901674270053, guid: 8dea0f3e66b5e18449931c224c54e591,
+    type: 3}
+  m_PrefabInstance: {fileID: 8859275223974233026}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6317367905312226985 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3267848901674270059, guid: 8dea0f3e66b5e18449931c224c54e591,
     type: 3}
   m_PrefabInstance: {fileID: 8859275223974233026}
   m_PrefabAsset: {fileID: 0}

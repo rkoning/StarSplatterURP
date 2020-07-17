@@ -20,7 +20,7 @@ public class Weapon : MonoBehaviour
     public event ReleaseAction OnRelease;
 
     private FireMode fireMode;
-    private Projector[] projectors;
+    public Projector[] projectors;
 
     public Projector[] Projectors {
         get { return projectors; }
@@ -30,6 +30,8 @@ public class Weapon : MonoBehaviour
     public Vector3 FirePoint {
         get { return firePoint; }
     }
+
+    public Targetable target;
 
     private void Awake() {
         Assemble();
@@ -48,13 +50,12 @@ public class Weapon : MonoBehaviour
         OnHold += fireMode.Hold;
         OnRelease += fireMode.Release;
         
-        // assign a weapon and damage to all projectors, and register callbacks for OnHitAny and OnHitDamage
-        projectors = GetComponentsInChildren<Projector>();
-        foreach(var p in projectors) {
-            p.Weapon = this;
-            p.Damage = damage;
-            p.OnHitDamage += HitDamage;
-            p.OnHitAny += HitAny;
+        if (projectors == null || projectors.Length == 0) {
+            // assign a weapon and damage to all projectors, and register callbacks for OnHitAny and OnHitDamage
+            projectors = GetComponentsInChildren<Projector>();
+            foreach(var p in projectors) {
+                p.Setup(this, damage, HitDamage, HitAny);
+            }
         }
     }
 
@@ -65,10 +66,7 @@ public class Weapon : MonoBehaviour
     public void AddProjectorTo(Transform t) {
         var newWeaponModel = GameObject.Instantiate(projectorPrefab, t.position, t.rotation, t);
         var newProjector = newWeaponModel.GetComponentInChildren<Projector>();
-        newProjector.Weapon = this;
-        newProjector.Damage = damage;
-        newProjector.OnHitDamage += HitDamage;
-        newProjector.OnHitAny += HitAny;
+        newProjector.Setup(this, damage, HitDamage, HitAny);
         projectors = projectors.Append(newProjector).ToArray();
     }
 

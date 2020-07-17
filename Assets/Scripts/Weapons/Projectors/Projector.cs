@@ -36,6 +36,13 @@ public abstract class Projector : MonoBehaviour
         sound = GetComponent<AudioSource>();
     }
 
+    public virtual void Setup(Weapon weapon, float damage, HitDamageAction hitDamage, HitAnyAction hitAny) {
+        this.weapon = weapon;
+        this.damage = damage;
+        this.OnHitDamage += hitDamage;
+        this.OnHitAny += hitAny;
+    }
+
     public virtual void Emit() {
         if (sound != null)
             sound.Play();

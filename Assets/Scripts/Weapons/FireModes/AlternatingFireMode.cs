@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AlternatingFireMode : FireMode
+﻿public class AlternatingFireMode : FireMode
 {
 
     private int current = 0;

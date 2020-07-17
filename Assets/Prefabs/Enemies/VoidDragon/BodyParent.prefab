@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 373098907735827032}
-  - component: {fileID: 7604106915032036638}
+  - component: {fileID: -5128334805464663896}
+  - component: {fileID: 4590988108436789017}
   m_Layer: 0
   m_Name: BodyParent
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7604106915032036638
+--- !u!114 &-5128334805464663896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,10 +41,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 8849965065688672866}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 641da656de6e4724fade2450694315ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cbd640e2e9d1f642abb0274fdc132c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 0}
-  children: []
-  childTargetTransform: {fileID: 0}
-  ships: []
+  projectorPrefab: {fileID: 0}
+  owner: {fileID: 0}
+  coolDown: 0.2
+  damage: 50
+  projectors: []
+  target: {fileID: 0}
+--- !u!114 &4590988108436789017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8849965065688672866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17eb90f31c05984ca91d9575bf6a17b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
