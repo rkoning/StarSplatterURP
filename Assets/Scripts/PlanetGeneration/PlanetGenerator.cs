@@ -114,11 +114,7 @@ namespace PlanetGeneration
             textureMinMax = new TextureMinMax();
             generator.generateColliders = false;
             scaledPlanet.localScale = Vector3.one / OriginManager.skyboxScale;
-            Debug.Log(scaledPlanet.localScale);
             generator.chunkHolder = scaledPlanet.gameObject;
-
-
-            generator.Run(textureMinMax);
             generator.mat = CreateSurfaceMaterial(selected.material, Mathf.Sqrt(textureMinMax.Min), Mathf.Sqrt(textureMinMax.Max));
         }
         

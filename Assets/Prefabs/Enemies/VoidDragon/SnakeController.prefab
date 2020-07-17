@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3492918691039199285}
   - component: {fileID: 77077538}
   - component: {fileID: 5567206350247119334}
-  m_Layer: 14
+  m_Layer: 0
   m_Name: SnakeController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,8 +88,8 @@ MonoBehaviour:
   accuracyIncreasePerShot: 0
   loseInterestAfter: 12000
   intrestLostPerShot: 0
-  turnSpeed: 0.5
-  baseThrustForce: 80
+  turnSpeed: 1.2
+  baseThrustForce: 50
   brakeForce: 5
   thrustForce: 5
   boostForce: 5
@@ -186,7 +186,9 @@ MonoBehaviour:
     type: 3}
   tailPrefab: {fileID: 1822203410633257311, guid: 53153e02f92dc4e4db0123010b0ee04f,
     type: 3}
-  initialSections: 100
+  bodyParentPrefab: {fileID: 8849965065688672866, guid: 92f286e2a6c28ef4e8cf6bb2207060d3,
+    type: 3}
+  initialSections: 10
   fighterPrefab: {fileID: 3492918691039199292}
   buildOnStart: 1
 --- !u!114 &77077538
@@ -230,4 +232,4 @@ MonoBehaviour:
   clusterHealth: {fileID: 0}
   destroyed: 0
   turretParent: {fileID: 0}
-  disableTime: 30
+  range: 500

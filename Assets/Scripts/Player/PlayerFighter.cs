@@ -118,6 +118,10 @@ public class PlayerFighter : Ship
             }
         }
 
+        if (boostLevel > 0 && rb.velocity.sqrMagnitude < Mathf.Pow(boostCutoffs[BoostLevel - 1], 2)) {
+            boostLevel -= 1;
+        }
+
         /**
          * Weapons
          */

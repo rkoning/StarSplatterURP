@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1638089822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1638089823}
+  m_Layer: 16
+  m_Name: ChunkHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1638089823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638089822}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 120.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8058242713645363916}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8058242713645363912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8058242713645363916}
+  - component: {fileID: 8058242713645363917}
+  - component: {fileID: 8189620253083250593}
+  - component: {fileID: 8189620253083250594}
+  m_Layer: 0
+  m_Name: AsteroidFieldGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8058242713645363916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058242713645363912}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1638089823}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8058242713645363917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058242713645363912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c246675c48dd4e6796ca3fe12dabbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  densityGenerator: {fileID: 8189620253083250594}
+  fixedMapSize: 1
+  numChunks: {x: 4, y: 4, z: 4}
+  viewer: {fileID: 0}
+  viewDistance: 30
+  autoUpdateInEditor: 1
+  autoUpdateInGame: 0
+  shader: {fileID: 7200000, guid: 752345f7767420c45aeae2f8c7483ef9, type: 3}
+  mat: {fileID: 2100000, guid: 16d1c8f455514a641adbd9afdfcbf03a, type: 2}
+  generateColliders: 1
+  isoLevel: 0.5
+  boundsSize: 1000
+  offset: {x: 0, y: 0, z: 0}
+  numPointsPerAxis: 36
+  showBoundsGizmo: 0
+  boundsGizmoCol: {r: 1, g: 1, b: 1, a: 1}
+  chunkHolder: {fileID: 1638089822}
+--- !u!114 &8189620253083250593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058242713645363912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e750333b9a4d048a466d0d277137f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator: {fileID: 8058242713645363917}
+  density: {fileID: 8189620253083250594}
+  asteroidMaterial: {fileID: 2100000, guid: 16d1c8f455514a641adbd9afdfcbf03a, type: 2}
+--- !u!114 &8189620253083250594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058242713645363912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 892911cb1b3635c4c86154474f0d5369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  densityShader: {fileID: 7200000, guid: 65d363a59ef2c9d41943f6cabef488f9, type: 3}
+  seed: 0
+  numOctaves: 2
+  lacunarity: 8
+  persistence: 2
+  noiseScale: 2
+  noiseWeight: 3.24
+  closeEdges: 0
+  floorOffset: 1
+  weightMultiplier: 0.63
+  hardFloorWeight: 1
+  shaderParams: {x: 0, y: 0, z: 0, w: 0}
