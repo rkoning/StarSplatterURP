@@ -5,7 +5,9 @@ using UnityEngine;
 public abstract class Projector : MonoBehaviour
 {
 
-    protected AudioSource sound;
+    public AudioSource sound;
+    public ParticleSystem emitParticles;
+
     public delegate void HitDamageAction();
     public event HitDamageAction OnHitDamage;
     public delegate void HitAnyAction();
@@ -33,7 +35,10 @@ public abstract class Projector : MonoBehaviour
     }
 
     protected virtual void Start() {
-        sound = GetComponent<AudioSource>();
+        if (sound == null)
+            sound = GetComponent<AudioSource>();
+        if (emitParticles == null)
+            emitParticles = GetComponent<ParticleSystem>();
     }
 
     public virtual void Setup(Weapon weapon, float damage, HitDamageAction hitDamage, HitAnyAction hitAny) {
@@ -46,6 +51,8 @@ public abstract class Projector : MonoBehaviour
     public virtual void Emit() {
         if (sound != null)
             sound.Play();
+        if (emitParticles != null)
+            emitParticles.Play();
     }
 
     /**

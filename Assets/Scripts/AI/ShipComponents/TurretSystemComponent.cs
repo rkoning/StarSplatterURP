@@ -46,7 +46,9 @@
                new Node(TargetInRange),
                new Node(TurretsAttackOther)
             });
-
+            if (ship == null) {
+               ship = GetComponent<AIShip>();
+            }
             ship.AppendOffenseNode(offenseNode);
             Node defenseNode = new Sequence(new Node[] {
                new Node(IsActive),

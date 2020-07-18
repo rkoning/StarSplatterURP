@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 373098907735827032}
   - component: {fileID: -5128334805464663896}
+  - component: {fileID: 3972598764832029868}
   - component: {fileID: 4590988108436789017}
   m_Layer: 0
   m_Name: BodyParent
@@ -46,10 +47,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectorPrefab: {fileID: 0}
   owner: {fileID: 0}
-  coolDown: 0.2
+  coolDown: 0.5
   damage: 50
   projectors: []
   target: {fileID: 0}
+--- !u!114 &3972598764832029868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8849965065688672866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e123576e2598a8f43b0225aa05e19fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shotsPerBurst: 8
+  burstDuration: 0.5
+  nextFireMode: {fileID: 4590988108436789017}
 --- !u!114 &4590988108436789017
 MonoBehaviour:
   m_ObjectHideFlags: 0

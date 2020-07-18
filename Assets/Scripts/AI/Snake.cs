@@ -87,16 +87,13 @@ public class Snake : MonoBehaviour {
    }
 
    public void SplitAt(int index) {
-      Debug.Log(" Splitting at: " + index);
       if (index < 2 || index > sections.Count - 1) {
-         Debug.Log("Can not split at: " + index);
          if (sections.Count <= 3) {
-            Debug.Log("Final Health Section destroyed, dying");
             foreach(var s in sections) {
                Destroy(s);
             }
             mainHealth.Die();
-         } else {
+         } else if (index > 0 && index < sections.Count) {
             var removed = sections[index];
             sections.RemoveAt(index);
             Destroy(removed);
@@ -104,21 +101,17 @@ public class Snake : MonoBehaviour {
          return;
       }
 
-      if (sections.Count <= 3) {
-         Debug.Log("I Should be destroyed, BOOM!");
-         return;
-      }
       // split sections into 2 lists
       Transform splitTransform = sections[index].transform;
       Transform newBody = GameObject.Instantiate(bodyParentPrefab, Vector3.zero, Quaternion.identity).transform;
       var newSnake = GameObject.Instantiate(fighterPrefab, splitTransform.position, splitTransform.rotation, newBody).GetComponent<Snake>();
+      var turrets = newSnake.GetComponent<TurretSystemComponent>();
+      turrets.turretParent = newBody;
 
-      Debug.Log("KeyFrameLength: " + keyFrameLength);
       int pointsIndex = (int) (((float) index / (float) sections.Count) * keyFrameLength);
       
       var end = sections.GetRange(index, sections.Count - index);
 
-      Debug.Log("End count: " + end.Count);
       // add split events
       for (int i = 0; i < end.Count; i++) {
          var section = end[i].GetComponentInChildren<SnakeSection>();

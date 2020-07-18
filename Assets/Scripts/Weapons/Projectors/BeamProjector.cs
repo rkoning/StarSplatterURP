@@ -6,6 +6,8 @@ public class BeamProjector : Projector {
  
     protected LineRenderer beam;
 
+    public ParticleSystem onHitEffect;
+
     public float duration;
 
     public LayerMask mask;
