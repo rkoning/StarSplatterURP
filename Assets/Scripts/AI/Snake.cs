@@ -59,7 +59,7 @@ public class Snake : MonoBehaviour {
       points = new PointArray(keyFrameLength);
 
       for (int i = 0; i < keyFrameLength; i++) {
-         points.AddPoint(lastPosition + (lastPosition - Vector3.one).normalized * i * 5);
+         points.AddPoint(lastPosition);
       }
       SetKeys();
    }
@@ -71,13 +71,13 @@ public class Snake : MonoBehaviour {
       GetComponent<AI.AIFighter>().primary = laser;
       newSections.Add(head);
       for (int i = 0; i < sections; i++) {
-         var section = GameObject.Instantiate(bodySectionPrefab, transform.position + transform.forward * maxDist * i, transform.rotation, body);
+         var section = GameObject.Instantiate(bodySectionPrefab, transform.position, transform.rotation, body);
          newSections.Add(section);
          int current = i;
          section.GetComponent<SnakeSection>().SetDeathAction((Health h) => { SplitAt(current); });
       }
 
-      var tail = GameObject.Instantiate(tailPrefab, transform.position + transform.forward * maxDist * (sections + 1), transform.rotation, body);
+      var tail = GameObject.Instantiate(tailPrefab, transform.position, transform.rotation, body);
       newSections.Add(tail);
       return newSections;
    }
@@ -87,6 +87,7 @@ public class Snake : MonoBehaviour {
    }
 
    public void SplitAt(int index) {
+      index = index - 1;
       if (index < 2 || index > sections.Count - 1) {
          if (sections.Count <= 3) {
             foreach(var s in sections) {
@@ -104,7 +105,7 @@ public class Snake : MonoBehaviour {
       // split sections into 2 lists
       Transform splitTransform = sections[index].transform;
       Transform newBody = GameObject.Instantiate(bodyParentPrefab, Vector3.zero, Quaternion.identity).transform;
-      var newSnake = GameObject.Instantiate(fighterPrefab, splitTransform.position, splitTransform.rotation, newBody).GetComponent<Snake>();
+      var newSnake = GameObject.Instantiate(fighterPrefab, splitTransform.position + splitTransform.forward * 20f, splitTransform.rotation, null).GetComponent<Snake>();
       var turrets = newSnake.GetComponent<TurretSystemComponent>();
       turrets.turretParent = newBody;
 
@@ -124,7 +125,7 @@ public class Snake : MonoBehaviour {
       newSnake.GetComponent<TurretSystemComponent>().SetTurretParent(newBody);
 
       // add new head to the end
-      var head = GameObject.Instantiate(headPrefab, splitTransform.position, splitTransform.rotation, body);
+      var head = GameObject.Instantiate(headPrefab, splitTransform.position, splitTransform.rotation, newBody);
 
       var laser = head.GetComponentInChildren<Weapon>();
       newSnake.GetComponent<AI.AIFighter>().primary = laser;
@@ -139,14 +140,13 @@ public class Snake : MonoBehaviour {
       newSnake.SetPoints(endPoints);
       newSnake.SetKeys();
       
-
       newSnake.GetComponent<AI.AIFighter>().target = GetComponent<AI.AIFighter>().currentTarget;
       sections = sections.GetRange(0, index);
       var tail = GameObject.Instantiate(tailPrefab, splitTransform.position, splitTransform.rotation, body);
       sections.Add(tail);
       buffer = sections.Count * 3;
       keyFrameLength = buffer + sections.Count;
-      SetPoints(points.GetRange(0, pointsIndex));
+      SetPoints(points.GetRange(1, pointsIndex));
       SetKeys();    
    }
 
@@ -214,7 +214,7 @@ public class Snake : MonoBehaviour {
 
       public PointArray GetRange(int index, int count) {
          var range = new PointArray(count);
-         for (int i = index; i < index + count - 1 && i < x.Length; i++) {
+         for (int i = index + count - 1; i > index && i > 0 && i < x.Length; i--) {
             // Debug.Log(i - index + " " + count);
             range.AddPoint(new Vector3(x[i].value, y[i].value, z[i].value));
          }

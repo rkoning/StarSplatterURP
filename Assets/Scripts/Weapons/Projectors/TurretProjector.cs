@@ -23,26 +23,30 @@ public class TurretProjector : Projector {
    }
 
    private IEnumerator RotateToAttack() {
-      Vector3 targetPosition = weapon.target.GetPosition();
+      // the parent weapon or the target may get destroyed during the coroutine, so ensure that they still exist
+      if (weapon && weapon.target) {
+         
+         Vector3 targetPosition = weapon.target.GetPosition();
 
-      RotateTurret(targetPosition);
-      bool canFire = true;
-      RaycastHit hit;
-      if (Physics.Raycast(barrelPivot.position, targetPosition - barrelPivot.position, out hit)) {
-         if (hit.collider.gameObject != weapon.target.gameObject) {
-            canFire = false;
+         RotateTurret(targetPosition);
+         bool canFire = true;
+         RaycastHit hit;
+         if (Physics.Raycast(barrelPivot.position, targetPosition - barrelPivot.position, out hit)) {
+            if (hit.collider.gameObject != weapon.target.gameObject) {
+               canFire = false;
+            }
          }
-      }
-      
-      if (!(Vector3.Dot(barrelPivot.forward, (targetPosition - barrelPivot.position).normalized) > accuracy)) {
-         canFire = false; 
-      }
-      if (!canFire)
-         yield return null;
+         
+         if (!(Vector3.Dot(barrelPivot.forward, (targetPosition - barrelPivot.position).normalized) > accuracy)) {
+            canFire = false; 
+         }
+         if (!canFire)
+            yield return null;
 
-      for (int i = 0; i < guns.Length; i++) {
-         guns[i].Emit();
-      }
+         for (int i = 0; i < guns.Length; i++) {
+            guns[i].Emit();
+         }
+      } 
    }
 
    private void RotateTurret(Vector3 targetPosition) {
