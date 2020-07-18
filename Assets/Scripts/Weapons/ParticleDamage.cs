@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParticleDamage : MonoBehaviour
 {
-    private float damage;
+    public float damage;
     private bool structureDamage;
 
     public void SetDamage(float damage, bool structureDamage) {

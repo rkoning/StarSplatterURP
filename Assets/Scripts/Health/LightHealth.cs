@@ -59,7 +59,8 @@ public class LightHealth : Health
         // if unshielded deal damage, play particles and return true
         if (!damaged && currentHealth < maxHealth / 2f) {
             damaged = true;
-            DamageParticles.Play();
+            if (DamageParticles) 
+                DamageParticles.Play();
             return true;
         }
 
@@ -88,7 +89,7 @@ public class LightHealth : Health
         currentHealth += health;
         if (currentHealth >= maxHealth / 2f) {
             damaged = false;
-            if (DamageParticles.isPlaying) {
+            if (DamageParticles && DamageParticles.isPlaying) {
                 DamageParticles.Stop();
             }
         }
