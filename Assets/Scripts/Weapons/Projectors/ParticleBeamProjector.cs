@@ -51,7 +51,7 @@ public class ParticleBeamProjector : Projector {
             yield return null;
         }
         if (beamParticles.isPlaying) {
-         beamParticles.Stop();
+            beamParticles.Stop();
         }
         emitting = null;
     }

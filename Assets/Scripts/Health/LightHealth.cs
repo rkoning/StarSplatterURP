@@ -75,14 +75,20 @@ public class LightHealth : Health
     /// Plays ExplosionParticles and destroys them after their duration. Calls the OnDeath delegate.
     /// </summary>
     public override void Die() {
+        bool pooled = ObjectPool.ContainsKey(this.name);
         dead = true;
         if (ExplosionParticles) {
             ExplosionParticles.transform.SetParent(null);
             ExplosionParticles.Play();
-            Destroy(ExplosionParticles, ExplosionParticles.main.duration);
+            if (!pooled)
+                Destroy(ExplosionParticles, ExplosionParticles.main.duration);
         }
         Death();
-        Destroy(gameObject);
+        if (pooled) {
+            gameObject.SetActive(false);
+        } else {
+            Destroy(gameObject);
+        }
     }
 
     public override void Heal(float health) {

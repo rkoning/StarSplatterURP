@@ -47,6 +47,8 @@ public class Targetable : MonoBehaviour
       }
 
       private void OnDestroy() {
+         if (this == null)
+            return;
          if (parent) {
             ((ComplexTargetable)parent).children.Remove(this);
          }

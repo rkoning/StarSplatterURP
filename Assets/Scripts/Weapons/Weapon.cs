@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour
     public float coolDown;
     protected float nextShot;
   
-    public float damage;   
+    public float damage;
     
     public delegate void FireAction();
     public event FireAction OnFire;

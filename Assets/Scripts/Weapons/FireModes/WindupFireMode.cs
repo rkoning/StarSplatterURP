@@ -8,6 +8,7 @@ public class WindupFireMode : FireMode
 
    private Coroutine windup;
    public GameObject windupParticlePrefab;
+   public AudioSource windupSound;
 
    private ParticleSystem[] windupParticles;
 
@@ -24,16 +25,18 @@ public class WindupFireMode : FireMode
    public override void Fire() {
       if (windup == null) {
          ForEachParticleDo((ParticleSystem p) => { p.Play(); });
+         windupSound.Play();
          windup = StartCoroutine(WaitThenFire(windupTime));
       }
    }
 
     private IEnumerator WaitThenFire(float duration) {
-       yield return new WaitForSeconds(duration);
+      yield return new WaitForSeconds(duration);
       ForEachParticleDo((ParticleSystem p) => { p.Stop(); });
-       nextFireMode.Fire();
-       weapon.StartCooldown();
-       windup = null;
+      windupSound.Stop();
+      nextFireMode.Fire();
+      weapon.StartCooldown();
+      windup = null;
     }
 
     public override void Hold() {

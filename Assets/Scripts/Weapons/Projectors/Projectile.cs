@@ -29,7 +29,9 @@ public class Projectile : MonoBehaviour
     }
 
     private void Setup() {
-        hitParticle.transform.SetParent(null);
+        if (hitParticle) {
+            hitParticle.transform.SetParent(null);
+        }
         rb = GetComponent<Rigidbody>();
         trail = GetComponent<TrailRenderer>();
     }

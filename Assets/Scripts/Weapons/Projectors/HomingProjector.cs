@@ -13,13 +13,9 @@ public class HomingProjector : GameObjectProjector
 
     public override void Emit() {
         base.Emit();
-        projectiles[currentProjectile].gameObject.SetActive(true);
-        projectiles[currentProjectile].Projector = this;
-        projectiles[currentProjectile].transform.position = transform.position;
-        projectiles[currentProjectile].transform.rotation = transform.rotation;
-        projectiles[currentProjectile].OnEmit();
-        projectiles[currentProjectile].SetTarget(pilot.target.transform);
-        currentProjectile++;
-        currentProjectile = currentProjectile % maxProjectiles;
+        var projectile = ObjectPool.Create(projectilePrefab.name, transform.position, transform.rotation, null).GetComponent<Projectile>();
+        projectile.Projector = this;
+        projectile.OnEmit();
+        projectile.SetTarget(pilot.target.transform);
     }
 }
