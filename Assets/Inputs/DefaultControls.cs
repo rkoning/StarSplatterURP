@@ -138,9 +138,9 @@ public class @DefaultControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a466bd79-d187-425e-a5aa-ba979f37b21f"",
-                    ""path"": ""<Mouse>/scroll/y"",
+                    ""path"": ""<Mouse>/delta/y"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
                     ""groups"": """",
                     ""action"": ""Pitch"",
                     ""isComposite"": false,
@@ -160,9 +160,9 @@ public class @DefaultControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""56a0312a-66f0-4e2c-9136-53e4eee746cf"",
-                    ""path"": ""<Mouse>/scroll/x"",
+                    ""path"": ""<Mouse>/delta/x"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
                     ""groups"": """",
                     ""action"": ""Roll"",
                     ""isComposite"": false,

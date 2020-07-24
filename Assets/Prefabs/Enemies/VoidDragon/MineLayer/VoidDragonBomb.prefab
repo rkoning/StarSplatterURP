@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 3795188263228911424}
   - component: {fileID: 3795188263228911425}
   - component: {fileID: 3795188263228911486}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SeekParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14792,7 +14792,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.97694737
+  m_Radius: 2
   m_Center: {x: -0.00000020861624, y: -0.00000008940698, z: 9.035674e-22}
 --- !u!114 &3795188263835843939
 MonoBehaviour:
@@ -14825,7 +14825,7 @@ MonoBehaviour:
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls: []
-  maxHealth: 100
+  maxHealth: 0
   currentHealth: 0
   damageFlashEnabled: 0
   flashColor: {r: 0, g: 0, b: 0, a: 0}
@@ -14856,7 +14856,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5155173001480157674}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf29b775c14438e43a376938f7a60d24, type: 3}
   m_Name: 
