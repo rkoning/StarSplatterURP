@@ -6,7 +6,7 @@ public class SnakeWeapon : MonoBehaviour {
    private Weapon bombLauncher;
 
    public float fireDelay = 8f;
-   private float lastFire = 8f;
+   private float nextFire = 8f;
 
    public float range = 20f;
 
@@ -17,8 +17,8 @@ public class SnakeWeapon : MonoBehaviour {
 
    private void Update() {
       float now = Time.fixedTime;
-      if (lastFire < now + fireDelay) {
-         lastFire = now;
+      if (now > nextFire) {
+         nextFire = now + fireDelay;
          var current = snake.sections[Random.Range(1, snake.sections.Count - 1)];
          if (current) {
             Vector3 rand = Random.onUnitSphere * range;

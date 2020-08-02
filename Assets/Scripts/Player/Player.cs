@@ -43,8 +43,9 @@ public class Player : MonoBehaviour {
       // * Camera
       // *
       // playerCamera = GameObject.Instantiate(playerCameraPrefab, ship.transform.position, ship.transform.rotation, null);
-   //   UIController.instance.GetComponent<Canvas>().worldCamera = playerCamera.GetComponentInChildren<Camera>();
-   //   UIController.instance.GetComponent<Canvas>().planeDistance = 1;
+      UIController.instance.GetComponent<Canvas>().worldCamera = camera.GetComponentInChildren<Camera>();
+      UIController.instance.GetComponent<Canvas>().planeDistance = 1;
+      UIController.instance.playerUI.SetPlayer(this);
       cameraController.MainCamera = camera.GetComponentInChildren<Camera>();
       cameraController.CameraTransform = camera.transform;
       camera = camera.GetComponent<PlayerCamera>();

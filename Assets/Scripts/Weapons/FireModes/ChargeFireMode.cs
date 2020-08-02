@@ -19,8 +19,8 @@ public class ChargeFireMode : FireMode
 
     private void Start() {
         if (chargeParticles == null) {
-            chargeParticles = new ParticleSystem[weapon.Projectors.Length];
-            for(int i = 0; i < weapon.Projectors.Length; i++) {
+            chargeParticles = new ParticleSystem[weapon.Projectors.Count];
+            for(int i = 0; i < weapon.Projectors.Count; i++) {
                 var part = GameObject.Instantiate(chargeParticlePrefab, weapon.Projectors[i].transform).GetComponent<ParticleSystem>();
                 chargeParticles[i] = part;
             } 

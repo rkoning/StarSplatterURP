@@ -419,7 +419,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d497b08c1500ec04fb09a371b27a83ac, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -711,14 +711,16 @@ MonoBehaviour:
   OnDeathEvent:
     m_PersistentCalls:
       m_Calls: []
-  maxHealth: 100
+  maxHealth: 50
   currentHealth: 0
-  damageFlashEnabled: 1
+  damageFlashEnabled: 0
   flashColor: {r: 1, g: 0.6698078, b: 0, a: 1}
   flashRenderer: {fileID: 1916206345799596582}
   invincibiltyDelay: 0
   DamageParticles: {fileID: 6317367905312226983}
   ExplosionParticles: {fileID: 2530830110044708299}
+  ExplosionSound: {fileID: 0}
+  pooled: 0
 --- !u!114 &1257033797401401651
 MonoBehaviour:
   m_ObjectHideFlags: 0

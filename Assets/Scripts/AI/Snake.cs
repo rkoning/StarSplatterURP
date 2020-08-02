@@ -14,7 +14,6 @@ public class Snake : MonoBehaviour {
 
    private PointArray points; 
 
-   public int buffer = 10;
    private int keyFrameLength;
 
    public float maxDist = 5f;
@@ -31,7 +30,6 @@ public class Snake : MonoBehaviour {
 
 
    public int initialSections;
-   private int currentSections;
 
    public GameObject fighterPrefab;
 
@@ -41,11 +39,12 @@ public class Snake : MonoBehaviour {
 
    private Health mainHealth;
 
+   public int splitIndex;
+
    private void Start() {
       mainHealth = GetComponent<Health>();
-      buffer = 3 * initialSections;
       if (!buildOnStart) {
-         keyFrameLength = buffer + initialSections;
+         // keyFrameLength = initialSections * 4;
          lastPosition = transform.position;
          return;
       }
@@ -53,9 +52,8 @@ public class Snake : MonoBehaviour {
       sections = BuildSnake(initialSections);
       var turrets = GetComponent<TurretSystemComponent>();
       turrets.turretParent = body;
-      currentSections = initialSections;
 
-      keyFrameLength = buffer + sections.Count;
+      keyFrameLength = initialSections * 4;
       points = new PointArray(keyFrameLength);
 
       for (int i = 0; i < keyFrameLength; i++) {
@@ -99,25 +97,30 @@ public class Snake : MonoBehaviour {
             sections.RemoveAt(index);
             Destroy(removed);
          }
+         Debug.Log("did not split" + index + " " + sections.Count);
+         return;
+      }
+
+      int pointsIndex = (int) (((float) index / (float) sections.Count) * keyFrameLength);
+      if (points.size - pointsIndex < 1) {
          return;
       }
 
       // split sections into 2 lists
       Transform splitTransform = sections[index].transform;
       Transform newBody = GameObject.Instantiate(bodyParentPrefab, Vector3.zero, Quaternion.identity).transform;
-      var newSnake = GameObject.Instantiate(fighterPrefab, splitTransform.position + splitTransform.forward * 20f, splitTransform.rotation, null).GetComponent<Snake>();
+      var newSnake = GameObject.Instantiate(fighterPrefab, splitTransform.position, Quaternion.Inverse(splitTransform.rotation), null).GetComponent<Snake>();
       var turrets = newSnake.GetComponent<TurretSystemComponent>();
       turrets.turretParent = newBody;
 
-      int pointsIndex = (int) (((float) index / (float) sections.Count) * keyFrameLength);
-      
+
       var end = sections.GetRange(index, sections.Count - index);
 
       // add split events
       for (int i = 0; i < end.Count; i++) {
          var section = end[i].GetComponentInChildren<SnakeSection>();
          if (section) {
-            section.SetDeathAction((Health h) => { SplitAt(i); });
+            section.SetDeathAction((Health h) => { newSnake.SplitAt(i); });
             section.transform.SetParent(newBody);
          }
       }
@@ -134,23 +137,24 @@ public class Snake : MonoBehaviour {
       newSnake.sections = end;
       newSnake.initialSections = end.Count;
       newSnake.buildOnStart = false;
+      var endPoints = points.GetRange(pointsIndex, points.size - pointsIndex);
 
-      var endPoints = points.GetRange(pointsIndex, keyFrameLength - pointsIndex - 1);
       newSnake.keyFrameLength = (int) (index / (float) sections.Count) * keyFrameLength;
       newSnake.SetPoints(endPoints);
       newSnake.SetKeys();
       
       newSnake.GetComponent<AI.AIFighter>().target = GetComponent<AI.AIFighter>().currentTarget;
+      
       sections = sections.GetRange(0, index);
       var tail = GameObject.Instantiate(tailPrefab, splitTransform.position, splitTransform.rotation, body);
       sections.Add(tail);
-      buffer = sections.Count * 3;
-      keyFrameLength = buffer + sections.Count;
+      initialSections = sections.Count;
+      keyFrameLength = initialSections * 4;
       SetPoints(points.GetRange(1, pointsIndex));
-      SetKeys();    
+      SetKeys();
    }
 
-   private void FixedUpdate() {
+   private void Update() {
       if (mainHealth.Dead)
          return;
       if ((transform.position - lastPosition).sqrMagnitude > maxDist) {
@@ -192,6 +196,9 @@ public class Snake : MonoBehaviour {
       }
 
       public void AddPoint(Vector3 point) {
+         if (size == 0) {
+            return;
+         }
          x = ShiftArray(x);
          x[0] = new Keyframe(0f, point.x);
          y = ShiftArray(y);
@@ -214,8 +221,7 @@ public class Snake : MonoBehaviour {
 
       public PointArray GetRange(int index, int count) {
          var range = new PointArray(count);
-         for (int i = index + count - 1; i > index && i > 0 && i < x.Length; i--) {
-            // Debug.Log(i - index + " " + count);
+         for (int i = index + count - 1; i > index - 1; i--) {
             range.AddPoint(new Vector3(x[i].value, y[i].value, z[i].value));
          }
          return range;

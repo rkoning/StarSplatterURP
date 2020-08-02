@@ -18,7 +18,7 @@ public static class ObjectPool {
       }
 
       // and 'count' number of objects into the new or existing queue
-      for (int i = 0; i < count; i++) {
+      for (int i = 0; i < count && pool.Count < 100; i++) {
          var go = GameObject.Instantiate(prefab);
          go.name.Replace(" (Clone)", "");
          go.SetActive(false);

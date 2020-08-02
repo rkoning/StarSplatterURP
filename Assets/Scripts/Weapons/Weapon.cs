@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -20,9 +21,9 @@ public class Weapon : MonoBehaviour
     public event ReleaseAction OnRelease;
 
     private FireMode fireMode;
-    public Projector[] projectors;
+    public List<Projector> projectors;
 
-    public Projector[] Projectors {
+    public List<Projector> Projectors {
         get { return projectors; }
     }
     
@@ -50,9 +51,9 @@ public class Weapon : MonoBehaviour
         OnHold += fireMode.Hold;
         OnRelease += fireMode.Release;
         
-        if (projectors == null || projectors.Length == 0) {
+        if (projectors == null || projectors.Count == 0) {
             // assign a weapon and damage to all projectors, and register callbacks for OnHitAny and OnHitDamage
-            projectors = GetComponentsInChildren<Projector>();
+            projectors = new List<Projector>(GetComponentsInChildren<Projector>());
             foreach(var p in projectors) {
                 p.Setup(this, damage, HitDamage, HitAny);
             }
@@ -60,14 +61,18 @@ public class Weapon : MonoBehaviour
     }
 
     public void ResetProjectors() {
-        projectors = new Projector[0];
+        projectors = new List<Projector>();
     }
 
     public void AddProjectorTo(Transform t) {
         var newWeaponModel = GameObject.Instantiate(projectorPrefab, t.position, t.rotation, t);
         var newProjector = newWeaponModel.GetComponentInChildren<Projector>();
         newProjector.Setup(this, damage, HitDamage, HitAny);
-        projectors = projectors.Append(newProjector).ToArray();
+        projectors.Add(newProjector);
+    }
+
+    public void RemoveProjector(Projector p) {
+        projectors.Remove(p);
     }
 
     public void SetupFiremodes() {
@@ -113,7 +118,7 @@ public class Weapon : MonoBehaviour
     /// </summary>
     /// <returns>Range of the first projector or zero if it does not exist.</returns>
     public float GetRange() {
-        if (projectors.Length < 0) {
+        if (projectors.Count < 0) {
             return 0f;
         }
         return projectors[0].range;

@@ -15,7 +15,10 @@ public class LightHealth : Health
 
     public ParticleSystem ExplosionParticles;
 
+    public AudioSource ExplosionSound;
+
     private Shield shield;
+    public bool pooled;
 
     protected override void Start() {
         base.Start();
@@ -75,13 +78,15 @@ public class LightHealth : Health
     /// Plays ExplosionParticles and destroys them after their duration. Calls the OnDeath delegate.
     /// </summary>
     public override void Die() {
-        bool pooled = ObjectPool.ContainsKey(this.name);
         dead = true;
         if (ExplosionParticles) {
             ExplosionParticles.transform.SetParent(null);
             ExplosionParticles.Play();
             if (!pooled)
                 Destroy(ExplosionParticles, ExplosionParticles.main.duration);
+        }
+        if (ExplosionSound) {
+            ExplosionSound.Play();
         }
         Death();
         if (pooled) {

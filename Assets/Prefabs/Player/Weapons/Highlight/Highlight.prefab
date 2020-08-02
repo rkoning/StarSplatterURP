@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4689747742432499649}
   - component: {fileID: 4689747742432499650}
   - component: {fileID: 4689747742432499651}
+  - component: {fileID: -6662142558369473057}
   - component: {fileID: 4689747742432499648}
   m_Layer: 0
   m_Name: Highlight
@@ -48,8 +49,10 @@ MonoBehaviour:
   projectorPrefab: {fileID: 332550606948390442, guid: fa4bbcd9165334f4eb46992b2881bc4c,
     type: 3}
   owner: {fileID: 0}
-  coolDown: 0.1
-  damage: 100
+  coolDown: 0.35
+  damage: 800
+  projectors: []
+  target: {fileID: 0}
 --- !u!114 &4689747742432499651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,10 +65,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a74a46f7f17d6b147ae76953f72f7539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextFireMode: {fileID: 4689747742432499648}
+  nextFireMode: {fileID: -6662142558369473057}
   FireTo: 0
   HoldTo: 0
   ReleaseTo: 2
+--- !u!114 &-6662142558369473057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4689747742432499662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e123576e2598a8f43b0225aa05e19fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shotsPerBurst: 4
+  burstDuration: 0.25
+  nextFireMode: {fileID: 4689747742432499648}
 --- !u!114 &4689747742432499648
 MonoBehaviour:
   m_ObjectHideFlags: 0

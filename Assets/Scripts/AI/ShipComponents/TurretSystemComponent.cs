@@ -1,7 +1,8 @@
 ﻿using System.Linq;
-   using UnityEngine;
-   using AI.BehaviourTree;
-   using AI.CommandGroups;
+using UnityEngine;
+using AI.BehaviourTree;
+using AI.CommandGroups;
+using System.Collections.Generic;
 
    namespace AI {
       public class TurretSystemComponent : ShipComponent
@@ -28,11 +29,11 @@
             turrets = turretParent.GetComponentsInChildren<TurretProjector>();
 
             turretWeapon = turretParent.GetComponent<Weapon>();
-            turretWeapon.projectors = new Projector[turrets.Length];
+            turretWeapon.projectors = new List<Projector>();
 
             for (int i = 0; i < turrets.Length; i++) {
                var turret = turrets[i].GetComponent<TurretProjector>();
-               turretWeapon.projectors[i] = turret;
+               turretWeapon.projectors.Add(turret);
                turret.Setup(
                   turretWeapon, 
                   turretWeapon.damage, 

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectorPrefab: {fileID: 0}
   owner: {fileID: 0}
-  coolDown: 0.5
+  coolDown: 2
   damage: 50
   projectors: []
   target: {fileID: 0}
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e123576e2598a8f43b0225aa05e19fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shotsPerBurst: 8
+  shotsPerBurst: 4
   burstDuration: 0.5
   nextFireMode: {fileID: 4590988108436789017}
 --- !u!114 &4590988108436789017

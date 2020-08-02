@@ -48,7 +48,7 @@ MonoBehaviour:
   projectorPrefab: {fileID: 2572209815849559741, guid: bd010aeefbae2ec469f9e5ab9fa75004,
     type: 3}
   owner: {fileID: 0}
-  coolDown: 8
+  coolDown: 2
   damage: 50
   projectors: []
   target: {fileID: 0}
@@ -154,8 +154,8 @@ MonoBehaviour:
   accuracyIncreasePerShot: 0
   loseInterestAfter: 12000
   intrestLostPerShot: 0
-  turnSpeed: 1.2
-  baseThrustForce: 80
+  turnSpeed: 2.5
+  baseThrustForce: 58
   brakeForce: 5
   thrustForce: 5
   boostForce: 5
@@ -185,6 +185,8 @@ MonoBehaviour:
   invincibiltyDelay: 0
   DamageParticles: {fileID: 0}
   ExplosionParticles: {fileID: 0}
+  ExplosionSound: {fileID: 0}
+  pooled: 0
 --- !u!114 &3492918691039199291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,7 +244,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  buffer: 500
   maxDist: 18
   speed: 20
   initialDist: 0.1
@@ -254,9 +255,10 @@ MonoBehaviour:
     type: 3}
   bodyParentPrefab: {fileID: 8849965065688672866, guid: 92f286e2a6c28ef4e8cf6bb2207060d3,
     type: 3}
-  initialSections: 25
+  initialSections: 80
   fighterPrefab: {fileID: 3492918691039199292}
   buildOnStart: 1
+  splitIndex: 0
 --- !u!114 &77077538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +285,8 @@ MonoBehaviour:
   invincibiltyDelay: 0
   DamageParticles: {fileID: 0}
   ExplosionParticles: {fileID: 0}
+  ExplosionSound: {fileID: 0}
+  pooled: 0
 --- !u!114 &5567206350247119334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,7 +294,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3492918691039199292}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 677ca7077a5f93c41a31222740b41c99, type: 3}
   m_Name: 
@@ -306,13 +310,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3492918691039199292}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e854fa2b41767d444bb94b8318a6c0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fireDelay: 8
-  range: 20
+  range: 50
 --- !u!1001 &3492918691271070650
 PrefabInstance:
   m_ObjectHideFlags: 0

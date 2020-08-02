@@ -8,8 +8,11 @@ public class PlayerHealth : LightHealth
 
     public LayerMask damagingLayers;
 
+    private Player player;
+
     protected override void Start() {
         base.Start();
+        player = GetComponent<PlayerFighter>().player;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -21,7 +24,7 @@ public class PlayerHealth : LightHealth
     }
 
     public override void Die() {
-        // PlayerLoader.instance.RespawnAfter(5f);
+        player.RespawnAfter(5f);
         base.Die();
     }
 }

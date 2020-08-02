@@ -15,8 +15,8 @@ public class WindupFireMode : FireMode
    public FireMode nextFireMode;
 
    private void Start() {
-      windupParticles = new ParticleSystem[weapon.Projectors.Length];
-      for(int i = 0; i < weapon.Projectors.Length; i++) {
+      windupParticles = new ParticleSystem[weapon.Projectors.Count];
+      for(int i = 0; i < weapon.Projectors.Count; i++) {
          var part = GameObject.Instantiate(windupParticlePrefab, weapon.Projectors[i].transform).GetComponent<ParticleSystem>();
          windupParticles[i] = part;
       } 

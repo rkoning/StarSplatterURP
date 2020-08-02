@@ -48,7 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sound: {fileID: 4138019332761358871}
   emitParticles: {fileID: 6787318958778904226}
-  range: 200
+  range: 1000
+  onHitEffect: {fileID: 0}
   duration: 0.05
   mask:
     serializedVersion: 2

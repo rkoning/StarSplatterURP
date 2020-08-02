@@ -34,6 +34,7 @@ public class Shield : MonoBehaviour
     {
         onShieldBreak += () => { }; // set default event
         onShieldRecharge += () => { };
+        currentHealth = maxHealth;
     }
 
     public void BreakShield() {
@@ -64,10 +65,6 @@ public class Shield : MonoBehaviour
 
         currentHealth = maxHealth;
 
-        if (rechargeEffect) {
-            rechargeEffect.Play();
-        }
-
         if (rechargeSound) {
             rechargeSound.Play();
         }
@@ -79,7 +76,13 @@ public class Shield : MonoBehaviour
     }
 
     private IEnumerator RechargeAfterDelay(float delay) {
-        yield return new WaitForSeconds(delay);
+        if (rechargeEffect) {
+            yield return new WaitForSeconds(delay - rechargeEffect.main.duration);
+            rechargeEffect.Play();
+            yield return new WaitForSeconds(rechargeEffect.main.duration);
+        } else {
+            yield return new WaitForSeconds(delay);
+        }
         Recharge();
     }
 }

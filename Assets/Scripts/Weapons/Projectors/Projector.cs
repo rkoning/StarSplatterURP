@@ -87,4 +87,9 @@ public abstract class Projector : MonoBehaviour
     protected void HitDamage() {
         OnHitDamage();
     }
+    
+    private void OnDestroy() {
+        if (this.weapon)
+            this.weapon.RemoveProjector(this);
+    }
 }
