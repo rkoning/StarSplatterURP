@@ -22,7 +22,7 @@ public class LightHealth : Health
 
     protected override void Start() {
         base.Start();
-        shield = GetComponent<Shield>();    
+        shield = GetComponent<Shield>();   
     }
 
     //private void Update()

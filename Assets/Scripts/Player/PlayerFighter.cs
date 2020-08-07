@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -127,32 +127,6 @@ public class PlayerFighter : Ship
          */
 
         if (playerInput.PrimaryFireInput || playerInput.SecondaryFireInput || playerInput.EquipmentInput) {
-            RaycastHit hit;
-            if (Physics.SphereCast(transform.position, aimAssistRadius, transform.forward, out hit)) {
-                var h = hit.collider.GetComponent<Health>();
-                if (h != null) {
-                    if (primary) {
-                        AimWeaponAt(primary.transform, hit.point);
-                    }
-                    if (secondary) {
-                        AimWeaponAt(secondary.transform, hit.point);
-                    }
-                    if (equipment) {
-                        AimWeaponAt(equipment.transform, hit.point);
-                    }
-                }
-            } else {
-                if (primary) {
-                    primary.transform.rotation = Quaternion.LookRotation(transform.forward, transform.up);
-                }
-                if (secondary) {
-                    secondary.transform.rotation = Quaternion.LookRotation(transform.forward, transform.up);
-                }
-                if (equipment) {
-                    equipment.transform.rotation = Quaternion.LookRotation(transform.forward, transform.up);
-                }
-            }
-
             if (primary) {
                 if (playerInput.PrimaryFireDown) {
                     primary.Fire();
@@ -185,10 +159,12 @@ public class PlayerFighter : Ship
         }
     }
 
-    private void AimWeaponAt(Transform weaponTransform, Vector3 point) {
-        Vector3 direction = (point - weaponTransform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        weaponTransform.rotation = lookRotation;
+    private void AimWeaponAt(List<Projector> projectors, Vector3 point) {
+        for (int i = 0; i < projectors.Count; i++) {
+            Vector3 direction = (point - projectors[i].transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            projectors[i].transform.rotation = lookRotation;
+        }
     }
 
     public bool CanBoost() {

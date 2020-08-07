@@ -50,7 +50,7 @@ MonoBehaviour:
     type: 3}
   owner: {fileID: 0}
   coolDown: 0.35
-  damage: 800
+  damage: 50
   projectors: []
   target: {fileID: 0}
 --- !u!114 &4689747742432499651

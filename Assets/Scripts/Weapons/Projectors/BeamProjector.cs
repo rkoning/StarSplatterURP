@@ -13,6 +13,8 @@ public class BeamProjector : Projector {
     public LayerMask mask;
 
     public float maxWidth = 0.25f;
+    public float hitWidthMultiplier = 1f;
+
     public AnimationCurve widthCurve = AnimationCurve.Constant(0, 1, 1f);
 
 
@@ -36,12 +38,16 @@ public class BeamProjector : Projector {
         beam.enabled = true;
         float now = 0f;
         float dT = Time.deltaTime;
-        while (now < duration) {
-            Ray ray = new Ray(transform.position, ConvergePoint(transform, range));
+        while (now < duration) {         
+            float width = widthCurve.Evaluate(now / duration) * maxWidth;
+            beam.startWidth = width;
+            beam.endWidth = width;
+
+            Ray ray = new Ray(transform.position, transform.forward * range);
             RaycastHit hit;
 
             Vector3 hitPoint;
-            if (Physics.Raycast(ray, out hit, range, mask)) {
+            if (Physics.SphereCast(transform.position, width * hitWidthMultiplier, transform.forward * range, out hit, range, mask)) {
                 DealDamage(hit.collider.gameObject);
                 hitPoint = hit.point;
             } else {
@@ -50,9 +56,6 @@ public class BeamProjector : Projector {
 
             beam.SetPositions(new Vector3[] {transform.position, hitPoint});
 
-            float width = widthCurve.Evaluate(now / duration) * maxWidth;
-            beam.startWidth = width;
-            beam.endWidth = width;
 
             now += dT;
             yield return null;
