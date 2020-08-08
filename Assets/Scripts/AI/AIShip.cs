@@ -123,7 +123,6 @@ namespace AI {
         /// <returns>Success if the ship has been damaged in the last frame.</returns>
         protected State HasBeenHit() {
             if (hit) {
-                Debug.Log(this.name + " HasBeenHit");
                 hit = false;
                 return State.Success;
             }
