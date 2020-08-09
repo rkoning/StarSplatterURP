@@ -160,14 +160,14 @@ namespace PlanetGeneration
             //     ringGenerator.Run();
             //     ringChunkHolder.transform.localScale = Vector3.one * scaleModifier;
             // }
- 
+
 
             // planet = realPlanet.gameObject.AddComponent<Planet>();
             // List<Vector3> loc = GetOrbitalLocations(density.radius * scaleModifier * 2f);
-            // planet.orbitalBuildPoints = new List<BuildableLocation>();
+            // planet.orbitalBuildPoints = new List<Location>();
             // foreach (Vector3 l in loc) {
             //     planet.orbitalBuildPoints.Add(
-            //         new BuildableLocation(l, (l - realPlanet.position).normalized)
+            //         new Location(l, (l - realPlanet.position).normalized)
             //     );
             // }
             
